@@ -19,7 +19,7 @@ public class Attractable : MonoBehaviour {
         if (other.gameObject.name == FieldObjectName)
         {
             Vector3 direction = Vector3.Normalize(Magnet.transform.position - transform.position);
-            rigidbody.AddForce(direction*5, ForceMode2D.Force);
+            rigidbody.AddForce(direction*500, ForceMode2D.Force);
         }
     }
 }

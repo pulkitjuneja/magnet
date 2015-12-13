@@ -13,27 +13,23 @@ public class Magnet : MonoBehaviour {
 	void Update () 
     {
         if (Input.GetKey(KeyCode.W))
-            rigidbody.AddForce(new Vector2(0,1));
+            rigidbody.AddForce(new Vector2(0,100));
         if (Input.GetKey(KeyCode.S))
-            rigidbody.AddForce(new Vector2(0, -1));
+            rigidbody.AddForce(new Vector2(0, -100));
         if (Input.GetKey(KeyCode.A))
-            rigidbody.AddForce(new Vector2(-1, 0));
+            rigidbody.AddForce(new Vector2(-100, 0));
         if (Input.GetKey(KeyCode.D))
-            rigidbody.AddForce(new Vector2(1, 0));
+            rigidbody.AddForce(new Vector2(100, 0));
 	}
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnCollisionEnter2D(Collision2D other)
     {
             if(other.gameObject.tag == "absorbable")
             {
                 float weight = other.gameObject.GetComponent<Attractable>().Weight;
+                Destroy(other.gameObject);
                 rigidbody.mass += weight;
-                transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
+                transform.localScale += new Vector3(0.01f, 0.01f,0f);
             }
-           if(other.gameObject.tag == "DirectionPlate")
-           {
-              // rigidbody.velocity = new velocity
-
-           }
     }
 }
