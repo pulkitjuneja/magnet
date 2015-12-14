@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-
 public class Magnet : MonoBehaviour {
 
     public Rigidbody2D rigidbody;
@@ -30,8 +29,8 @@ public class Magnet : MonoBehaviour {
             {
                 float weight = other.gameObject.GetComponent<Attractable>().Weight;
                 Destroy(other.gameObject);
-                rigidbody.mass += 0.05f;
-                transform.localScale += new Vector3(0.05f, 0.05f,0f);
+                rigidbody.mass += 0.02f;
+                transform.localScale += new Vector3(0.02f, 0.02f,0f);
                 MagEnvInteraction.CurrentFieldRadius = MagEnvInteraction.InitialFieldRadius * transform.localScale.x;
                 Debug.Log(MagEnvInteraction.CurrentFieldRadius);
 				GetComponent<AudioSource>().clip = absorb;	

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class generator : MonoBehaviour {
@@ -8,6 +9,7 @@ public class generator : MonoBehaviour {
     
     Camera camera;
     float levelHeight;
+    public Text Distance;
     public GameObject Magnet;
     Vector3 levelGenPos;
     float ElapsedTime = 0;
@@ -16,6 +18,8 @@ public class generator : MonoBehaviour {
 	void Start () 
     {
         Score = 0;
+        Distance = GameObject.Find("Distance").GetComponent<Text>();
+        SetScore();
         camera = Camera.main;
         Magnet = Instantiate(Magnet, new Vector3(camera.transform.position.x, camera.transform.position.y + camera.orthographicSize/2), Quaternion.identity) as GameObject;
         levelHeight = camera.orthographicSize+0.1f;
@@ -27,10 +31,9 @@ public class generator : MonoBehaviour {
 	void Update () 
     {
         ElapsedTime += Time.deltaTime;
-        if(ElapsedTime>=3.0f)
+        if (ElapsedTime >= 3.0f && Time.timeScale <= 5.0f) 
         {
-            Time.timeScale += 0.1f; 
-            Debug.Log(Time.timeScale);
+            Time.timeScale += 0.075f; 
             ElapsedTime = 0;
         }
 	}
@@ -45,6 +48,7 @@ public class generator : MonoBehaviour {
             GameObject lev = Instantiate(levels[random], levelGenPos, Quaternion.identity) as GameObject;
             lev.GetComponent<Rigidbody2D>().velocity = new Vector2(0,gamespeed);
             Score += 1;
+            SetScore();
         }
 
     }
@@ -59,5 +63,10 @@ public class generator : MonoBehaviour {
         lev.GetComponent<Rigidbody2D>().velocity = new Vector2(0, gamespeed);
         lev = Instantiate(levels[z], levelGenPos, Quaternion.identity) as GameObject;
         lev.GetComponent<Rigidbody2D>().velocity = new Vector2(0, gamespeed);
+    }
+
+    void SetScore()
+    {
+        Distance.text = "Meters Fallen : " + Score.ToString();
     }
 }
