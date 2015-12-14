@@ -3,24 +3,24 @@ using System.Collections;
 
 public class generator : MonoBehaviour {
 
-    public static float gamespeed = 2.0f;
+    public static float gamespeed = 5.0f;
     
     Camera camera;
     float levelHeight;
+    public GameObject Magnet;
     Vector3 levelGenPos;
     public GameObject[] levels ;
 
 	void Start () 
     {
         camera = Camera.main;
-        levelHeight = camera.orthographicSize*2;
-        levelGenPos = new Vector3(camera.transform.position.x, camera.transform.position.y - levelHeight);
+        levelHeight = camera.orthographicSize+0.1f;
+        levelGenPos = new Vector3(camera.transform.position.x, camera.transform.position.y - (1.5f*levelHeight));
         this.transform.position = new Vector3(transform.position.x, camera.transform.position.y + camera.orthographicSize);
         spawnStart();
 	}
 
-	void Update () {
-	
+	void Update () {	
 	}
 
     void OnTriggerExit2D(Collider2D other)
@@ -40,10 +40,13 @@ public class generator : MonoBehaviour {
     {
         int x = Random.Range(0, levels.Length);
         int y = Random.Range(0, levels.Length);
+        int z = Random.Range(0, levels.Length);
         GameObject lev;
-        lev = Instantiate(levels[x], camera.transform.position, Quaternion.identity) as GameObject;
+        lev = Instantiate(levels[x], new Vector3(camera.transform.position.x,camera.transform.position.y-levelHeight/2,0), Quaternion.identity) as GameObject;
         lev.GetComponent<Rigidbody2D>().velocity = new Vector2(0, gamespeed);
-        lev = Instantiate(levels[y],levelGenPos, Quaternion.identity) as GameObject;
+        lev = Instantiate(levels[y], new Vector3(camera.transform.position.x, camera.transform.position.y + levelHeight/2, 0), Quaternion.identity) as GameObject;
+        lev.GetComponent<Rigidbody2D>().velocity = new Vector2(0, gamespeed);
+        lev = Instantiate(levels[y], levelGenPos, Quaternion.identity) as GameObject;
         lev.GetComponent<Rigidbody2D>().velocity = new Vector2(0, gamespeed);
     }
 }

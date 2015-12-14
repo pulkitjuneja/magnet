@@ -5,21 +5,49 @@ public class Attractable : MonoBehaviour {
 
     string FieldObjectName = "magnetic field";
     public float Weight ;
+    bool inMagnetRange = false;
+    Transform parent;
     public Rigidbody2D rigidbody;
+    Transform MagnetLocation;
     public GameObject Magnet; 
 	void Start () 
     {
         rigidbody = GetComponent<Rigidbody2D>();
+        parent = transform.parent;
 	}
 	void Update () {
 	
 	}
-    void OnTriggerStay2D(Collider2D other)
+
+    void FixedUpdate()
+    {
+        if(inMagnetRange)
+        {
+            Vector3 direction = MagnetLocation.position - transform.position;
+            float magnetDistance = Vector3.Distance(MagnetLocation.position, transform.position);
+            float magnetstr = (MagEnvInteraction.CurrentFieldRadius/magnetDistance)*500;
+            rigidbody.AddForce(direction * magnetstr, ForceMode2D.Force);
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.name == FieldObjectName)
         {
-            Vector3 direction = Vector3.Normalize(Magnet.transform.position - transform.position);
-            rigidbody.AddForce(direction*500, ForceMode2D.Force);
+            transform.parent = null ;
+            rigidbody.velocity = new Vector2(0, 0);
+            rigidbody.isKinematic = false;
+            MagnetLocation = other.transform;
+            inMagnetRange = true; 
         }
     }
-}
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.name == FieldObjectName)
+        {
+            rigidbody.isKinematic = true;
+            transform.parent = parent;
+            inMagnetRange = false;
+        }
+    }
+ }
