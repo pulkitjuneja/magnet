@@ -4,13 +4,11 @@ using System.Collections;
 public class Magnet : MonoBehaviour {
 
     public Rigidbody2D rigidbody;
-    public Rigidbody2D camera; 
 
 
 	void Start () 
     {
         rigidbody = GetComponent<Rigidbody2D>();
-        camera = Camera.main.GetComponent<Rigidbody2D>();
 	}
 	void Update () 
     {

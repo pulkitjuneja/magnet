@@ -14,6 +14,7 @@ public class generator : MonoBehaviour {
 	void Start () 
     {
         camera = Camera.main;
+        Magnet = Instantiate(Magnet, new Vector3(camera.transform.position.x, camera.transform.position.y + camera.orthographicSize/2), Quaternion.identity) as GameObject;
         levelHeight = camera.orthographicSize+0.1f;
         levelGenPos = new Vector3(camera.transform.position.x, camera.transform.position.y - (1.5f*levelHeight));
         this.transform.position = new Vector3(transform.position.x, camera.transform.position.y + camera.orthographicSize);
@@ -38,15 +39,13 @@ public class generator : MonoBehaviour {
 
     void spawnStart()
     {
-        int x = Random.Range(0, levels.Length);
-        int y = Random.Range(0, levels.Length);
         int z = Random.Range(0, levels.Length);
         GameObject lev;
-        lev = Instantiate(levels[x], new Vector3(camera.transform.position.x,camera.transform.position.y-levelHeight/2,0), Quaternion.identity) as GameObject;
+        lev = Instantiate(levels[levels.Length-1], new Vector3(camera.transform.position.x,camera.transform.position.y-levelHeight/2,0), Quaternion.identity) as GameObject;
         lev.GetComponent<Rigidbody2D>().velocity = new Vector2(0, gamespeed);
-        lev = Instantiate(levels[y], new Vector3(camera.transform.position.x, camera.transform.position.y + levelHeight/2, 0), Quaternion.identity) as GameObject;
+        lev = Instantiate(levels[levels.Length-1], new Vector3(camera.transform.position.x, camera.transform.position.y + levelHeight/2, 0), Quaternion.identity) as GameObject;
         lev.GetComponent<Rigidbody2D>().velocity = new Vector2(0, gamespeed);
-        lev = Instantiate(levels[y], levelGenPos, Quaternion.identity) as GameObject;
+        lev = Instantiate(levels[z], levelGenPos, Quaternion.identity) as GameObject;
         lev.GetComponent<Rigidbody2D>().velocity = new Vector2(0, gamespeed);
     }
 }
