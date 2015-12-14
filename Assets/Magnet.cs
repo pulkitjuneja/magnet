@@ -17,9 +17,9 @@ public class Magnet : MonoBehaviour {
        // if (Input.GetKey(KeyCode.S))
          //   rigidbody.AddForce(new Vector2(0, -20));
         if (Input.GetKey(KeyCode.A))
-            rigidbody.AddForce(new Vector2(-20, 0));
+            rigidbody.AddForce(new Vector2(-50, 0));
         if (Input.GetKey(KeyCode.D))
-            rigidbody.AddForce(new Vector2(20, 0));
+            rigidbody.AddForce(new Vector2(50, 0));
 	}
 
     void OnTriggerEnter2D(Collider2D other)
@@ -28,8 +28,8 @@ public class Magnet : MonoBehaviour {
             {
                 float weight = other.gameObject.GetComponent<Attractable>().Weight;
                 Destroy(other.gameObject);
-                rigidbody.mass += 0.1f;
-                transform.localScale += new Vector3(0.01f, 0.01f,0f);
+                rigidbody.mass += 0.05f;
+                transform.localScale += new Vector3(0.05f, 0.05f,0f);
                 MagEnvInteraction.CurrentFieldRadius = MagEnvInteraction.InitialFieldRadius * transform.localScale.x;
                 Debug.Log(MagEnvInteraction.CurrentFieldRadius);
             }
