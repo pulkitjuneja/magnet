@@ -28,7 +28,8 @@ public class Magnet : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D other)
     {
             if(other.gameObject.tag == "absorbable")
-            {
+			{	
+				animator.SetInteger("state",1);
                 float weight = other.gameObject.GetComponent<Attractable>().Weight;
                 Destroy(other.gameObject);
                 rigidbody.mass += 0.02f;
@@ -41,6 +42,7 @@ public class Magnet : MonoBehaviour {
     }
     void OnCollisionEnter2D(Collision2D other)
     {
+		animator.SetInteger ("state", 2);
         Debug.Log(other.gameObject.name);
         rigidbody.isKinematic = true;
         transform.parent = other.gameObject.transform;
