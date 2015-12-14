@@ -6,6 +6,7 @@ public class harmonicMotion : MonoBehaviour {
 	public float offset;
 	public float speed;
 	private float X,Y,Z,pos;
+	public static float temp;
 
 	void Start () {
 		X = transform.position.x;
@@ -20,5 +21,6 @@ public class harmonicMotion : MonoBehaviour {
 			transform.position = new Vector3 (transform.position.x,transform.position.y, Z);
 		} else
 			Z = pos;
+		GetComponent<Light> ().spotAngle = 15.0f + temp;
 	}
 }
