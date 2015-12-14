@@ -6,9 +6,11 @@ public class harmonicMotion : MonoBehaviour {
 	public float offset;
 	public float speed;
 	private float X,Y,Z,pos;
+	public GameObject magnet;
+
 	void Start () {
-		X = transform.position.x;
-		Y = transform.position.y;
+		X = magnet.transform.position.x;
+		Y = magnet.transform.position.y;
 		pos = transform.position.z;
 		Z = pos;
 	}
@@ -16,7 +18,7 @@ public class harmonicMotion : MonoBehaviour {
 		if (pos - Z < offset) 
         {
 			Z = Z - speed * Time.deltaTime;
-			transform.position = new Vector3 (X, Y, Z);
+			transform.position = new Vector3 (magnet.transform.position.x,magnet.transform.position.y, Z);
 		} else
 			Z = pos;
 	}

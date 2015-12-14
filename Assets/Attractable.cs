@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class Attractable : MonoBehaviour {
-
     string FieldObjectName = "magnetic field";
     public float Weight ;
     bool inMagnetRange = false;
@@ -10,9 +9,11 @@ public class Attractable : MonoBehaviour {
     public Rigidbody2D rigidbody;
     Transform MagnetLocation;
     public GameObject Magnet; 
+
+
 	void Start () 
-    {
-        rigidbody = GetComponent<Rigidbody2D>();
+	{
+		rigidbody = GetComponent<Rigidbody2D>();
         parent = transform.parent;
 	}
 	void Update () {
@@ -31,14 +32,14 @@ public class Attractable : MonoBehaviour {
     }
 
     void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.name == FieldObjectName)
+	{
+		if (other.gameObject.name == FieldObjectName)
         {
             transform.parent = null ;
             rigidbody.velocity = new Vector2(0, 0);
             rigidbody.isKinematic = false;
             MagnetLocation = other.transform;
-            inMagnetRange = true; 
+            inMagnetRange = true;
         }
     }
     void OnTriggerExit2D(Collider2D other)
