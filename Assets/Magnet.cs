@@ -4,10 +4,12 @@ using System.Collections;
 public class Magnet : MonoBehaviour {
 
     public Rigidbody2D rigidbody;
-
+	public AudioClip absorb;
+	public AudioClip hit;
 
 	void Start () 
     {
+		AudioSource audio = GetComponent<AudioSource>();
         rigidbody = GetComponent<Rigidbody2D>();
 	}
 	void Update () 
@@ -32,6 +34,8 @@ public class Magnet : MonoBehaviour {
                 transform.localScale += new Vector3(0.01f, 0.01f,0f);
                 MagEnvInteraction.CurrentFieldRadius = MagEnvInteraction.InitialFieldRadius * transform.localScale.x;
                 Debug.Log(MagEnvInteraction.CurrentFieldRadius);
+				GetComponent<AudioSource>().clip = absorb;	
+				GetComponent<AudioSource>().Play ();
             }
     }
     void OnCollisionEnter2D(Collision2D other)
@@ -39,5 +43,7 @@ public class Magnet : MonoBehaviour {
         Debug.Log(other.gameObject.name);
         rigidbody.isKinematic = true;
         transform.parent = other.gameObject.transform;
+		GetComponent<AudioSource>().clip = hit;
+		GetComponent<AudioSource>().Play ();
     }
 }
