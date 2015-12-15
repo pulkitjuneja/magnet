@@ -19,8 +19,9 @@ public class harmonicMotion : MonoBehaviour {
         {
 			Z = Z - speed * Time.deltaTime;
 			transform.position = new Vector3 (transform.position.x,transform.position.y, Z);
-		} else
+		} 
+        else
 			Z = pos;
-		GetComponent<Light> ().spotAngle = 15.0f + temp;
+		GetComponent<Light> ().spotAngle = 23.0f + temp;
 	}
 }

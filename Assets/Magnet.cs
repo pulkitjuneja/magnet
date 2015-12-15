@@ -15,10 +15,6 @@ public class Magnet : MonoBehaviour {
 	}
 	void Update () 
     {
-       // if (Input.GetKey(KeyCode.W))
-        //    rigidbody.AddForce(new Vector2(0,20));
-       // if (Input.GetKey(KeyCode.S))
-         //   rigidbody.AddForce(new Vector2(0, -20));
         if (Input.GetKey(KeyCode.A))
             rigidbody.AddForce(new Vector2(-50, 0));
         if (Input.GetKey(KeyCode.D))
@@ -35,7 +31,7 @@ public class Magnet : MonoBehaviour {
                 rigidbody.mass += 0.02f;
                 transform.localScale += new Vector3(0.02f, 0.02f,0f);
                 MagEnvInteraction.CurrentFieldRadius = MagEnvInteraction.InitialFieldRadius * transform.localScale.x;
-				harmonicMotion.temp += 0.2575f;
+				harmonicMotion.temp += 0.5f;
 			Debug.Log(harmonicMotion.temp);
 //				Debug.Log(MagEnvInteraction.CurrentFieldRadius);
 				GetComponent<AudioSource>().clip = absorb;	

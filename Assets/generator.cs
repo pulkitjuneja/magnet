@@ -15,7 +15,8 @@ public class generator : MonoBehaviour {
     public GameObject[] levels;
 
     public Text Distance , FinalScore;
-    public GameObject Magnet;
+    GameObject Magnet;
+    public GameObject MagnetPrefab;
     public GameObject StartMenu ,  EndMenu; 
 
 	void Start () 
@@ -24,7 +25,6 @@ public class generator : MonoBehaviour {
         Distance = GameObject.Find("Distance").GetComponent<Text>();
         SetScore();
         camera = Camera.main;
-        //
         levelHeight = camera.orthographicSize+0.1f;
         levelGenPos = new Vector3(camera.transform.position.x, camera.transform.position.y - (1.5f*levelHeight));
         this.transform.position = new Vector3(transform.position.x, camera.transform.position.y + camera.orthographicSize - 0.05f);
@@ -40,7 +40,7 @@ public class generator : MonoBehaviour {
             {
                 GameState = 1;
                 ToggleStartMenu(false);
-                Magnet = Instantiate(Magnet, new Vector3(camera.transform.position.x, camera.transform.position.y + camera.orthographicSize / 2), Quaternion.identity) as GameObject;
+                Magnet = Instantiate(MagnetPrefab, new Vector3(camera.transform.position.x, camera.transform.position.y + camera.orthographicSize / 2), Quaternion.identity) as GameObject;
                 spawnStart();
             }
         }
@@ -52,6 +52,13 @@ public class generator : MonoBehaviour {
                 Time.timeScale += 0.075f;
                 Debug.Log(Time.timeScale);
                 ElapsedTime = 0;
+            }
+            if (Magnet == null)
+            {
+                Debug.Log("End");
+                FinalScore.text = "Final Score : " + Score.ToString();
+                ToggleEndMenu(true);
+                GameState = 2;
             }
         }
         else if(GameState == 2)
@@ -85,14 +92,6 @@ public class generator : MonoBehaviour {
             lev.GetComponent<Rigidbody2D>().velocity = new Vector2(0,gamespeed);
             Score += 1;
             SetScore();
-            if(Magnet == null)
-            {
-                Destroy(other.gameObject);
-                Debug.Log("End");
-                FinalScore.text = "Final Score : " + Score.ToString();
-                ToggleEndMenu(true);
-                GameState = 2;
-            }
         }
     }
 
@@ -134,7 +133,7 @@ public class generator : MonoBehaviour {
         }
         Time.timeScale = 1.0f;
         GameState = 1;
-        Magnet = Instantiate(Magnet, new Vector3(camera.transform.position.x, camera.transform.position.y + camera.orthographicSize / 2), Quaternion.identity) as GameObject;
+        Magnet = Instantiate(MagnetPrefab, new Vector3(camera.transform.position.x, camera.transform.position.y + camera.orthographicSize / 2), Quaternion.identity) as GameObject;
         spawnStart();
     }
 }
