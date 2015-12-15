@@ -26,7 +26,7 @@ public class MagEnvInteraction : MonoBehaviour {
             Vector2 direction = Vector3.Normalize(OtherBody.position - transform.position);
             float distance = Mathf.Min(Mathf.Abs(OtherBody.position.x - transform.position.x), CurrentFieldRadius);
             float MagStr = (CurrentFieldRadius / distance) * 15;
-            Debug.Log(Mathf.Abs(OtherBody.position.x - transform.position.x) + " " + MagStr);
+            //Debug.Log(Mathf.Abs(OtherBody.position.x - transform.position.x) + " " + MagStr);
             direction.y = 0;
             Parentrigidbody.AddForce(direction * (MagStr * PullDirection), ForceMode2D.Force);
         }
@@ -38,7 +38,7 @@ public class MagEnvInteraction : MonoBehaviour {
         if(other.gameObject.tag == "attractor")
         {
             OtherBody = other.transform;
-            Debug.Log("attraction");
+           // Debug.Log("attraction");
             inMagneticInfluence = true;
             PullDirection = 1;
         }

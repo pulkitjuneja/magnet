@@ -35,7 +35,7 @@ public class Magnet : MonoBehaviour {
                 rigidbody.mass += 0.02f;
                 transform.localScale += new Vector3(0.02f, 0.02f,0f);
                 MagEnvInteraction.CurrentFieldRadius = MagEnvInteraction.InitialFieldRadius * transform.localScale.x;
-                Debug.Log(MagEnvInteraction.CurrentFieldRadius);
+               //  Debug.Log(MagEnvInteraction.CurrentFieldRadius);
 				GetComponent<AudioSource>().clip = absorb;	
 				GetComponent<AudioSource>().Play ();
             }
