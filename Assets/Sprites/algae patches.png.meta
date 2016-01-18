@@ -1,0 +1,176 @@
+fileFormatVersion: 2
+guid: d9d5856807596f04ca055431bd916c77
+timeCreated: 1453047919
+licenseType: Pro
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: algae patches_0
+    21300002: algae patches_1
+    21300004: algae patches_2
+    21300006: algae patches_3
+    21300008: algae patches_4
+    21300010: algae patches_5
+    21300012: algae patches_6
+    21300014: algae patches_7
+    21300016: algae patches_8
+    21300018: algae patches_9
+    21300020: algae patches_10
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: algae patches_0
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 267
+        width: 126
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: algae patches_1
+      rect:
+        serializedVersion: 2
+        x: 156
+        y: 265
+        width: 110
+        height: 111
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: algae patches_2
+      rect:
+        serializedVersion: 2
+        x: 318
+        y: 261
+        width: 107
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: algae patches_3
+      rect:
+        serializedVersion: 2
+        x: 430
+        y: 275
+        width: 76
+        height: 104
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: algae patches_4
+      rect:
+        serializedVersion: 2
+        x: 518
+        y: 257
+        width: 74
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: algae patches_5
+      rect:
+        serializedVersion: 2
+        x: 499
+        y: 256
+        width: 11
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: algae patches_6
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 20
+        width: 104
+        height: 179
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: algae patches_7
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 28
+        width: 97
+        height: 161
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: algae patches_8
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 24
+        width: 87
+        height: 172
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: algae patches_9
+      rect:
+        serializedVersion: 2
+        x: 369
+        y: 28
+        width: 117
+        height: 184
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: algae patches_10
+      rect:
+        serializedVersion: 2
+        x: 509
+        y: 35
+        width: 86
+        height: 188
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

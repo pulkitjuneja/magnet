@@ -22,7 +22,7 @@ public class Attractable : MonoBehaviour {
 
     void FixedUpdate()
     {
-        if(inMagnetRange)
+        if(inMagnetRange && MagnetLocation)
         {
             Vector3 direction = MagnetLocation.position - transform.position;
             float magnetDistance = Vector3.Distance(MagnetLocation.position, transform.position);
@@ -49,6 +49,7 @@ public class Attractable : MonoBehaviour {
             rigidbody.isKinematic = true;
             transform.parent = parent;
             inMagnetRange = false;
+            MagnetLocation = null;
         }
     }
  }

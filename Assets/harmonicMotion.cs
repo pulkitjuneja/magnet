@@ -12,6 +12,7 @@ public class harmonicMotion : MonoBehaviour {
 		X = transform.position.x;
 		Y = transform.position.y;
 		pos = transform.position.z;
+        temp = 0;
 		Z = pos;
 	}
 	void Update () {
@@ -19,6 +20,7 @@ public class harmonicMotion : MonoBehaviour {
         {
 			Z = Z - speed * Time.deltaTime;
 			transform.position = new Vector3 (transform.position.x,transform.position.y, Z);
+            Debug.Log("update");
 		} 
         else
 			Z = pos;
