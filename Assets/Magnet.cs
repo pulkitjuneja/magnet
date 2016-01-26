@@ -7,6 +7,7 @@ public class Magnet : MonoBehaviour {
 	public AudioClip hit;
     CircleCollider2D collider;
     CircleCollider2D magField;
+	SpriteRenderer boost;
     bool ControlsDisabled = false;
     AudioSource audio;
 	Animator animator;
@@ -17,8 +18,10 @@ public class Magnet : MonoBehaviour {
         audio = GetComponent<AudioSource>();
         collider = GetComponent<CircleCollider2D>();
         magField = GetComponentsInChildren<CircleCollider2D>()[1];
+		boost = GetComponentsInChildren<SpriteRenderer> () [1] ;
         Debug.Log(magField.radius);
 		rigidbody = GetComponent<Rigidbody2D>();
+		boost.enabled = false;
 	}
 	void Update () 
     {
@@ -62,11 +65,14 @@ public class Magnet : MonoBehaviour {
         StartCoroutine(Invincibility());
     }
 
+
     IEnumerator Invincibility()
     {
         rigidbody.velocity=Vector2.zero;
         collider.enabled = false;
         magField.enabled = false;
+		boost.enabled = true;
+
         float originalTimeScale = Time.timeScale;
         ControlsDisabled = true;
         Time.timeScale = 6.5f;
@@ -84,5 +90,6 @@ public class Magnet : MonoBehaviour {
         }
         collider.enabled = true;
         magField.enabled = true;
+		boost.enabled = false;
     }
 }
