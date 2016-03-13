@@ -12,15 +12,18 @@ public class Magnet : MonoBehaviour {
     bool ControlsDisabled = false;
     AudioSource audio;
 	Animator animator;
+
+    float TouchSeperator;
 	
 	void Start () 
 	{
 		animator = GetComponent<Animator>();
         audio = GetComponent<AudioSource>();
         collider = GetComponent<CircleCollider2D>();
+        TouchSeperator = Screen.width / 2;
         magField = GetComponentsInChildren<CircleCollider2D>()[1];
 		boost = GetComponentsInChildren<SpriteRenderer> () [1] ;
-        Debug.Log(magField.radius);
+        //Debug.Log(magField.radius);
 		rigidbody = GetComponent<Rigidbody2D>();
 		boost.enabled = false;
 	}
@@ -28,10 +31,24 @@ public class Magnet : MonoBehaviour {
     {
         if (!ControlsDisabled)
         {
+             #if  UNITY_STANDALONE || UNITY_WEBPLAYER
             if (Input.GetKey(KeyCode.A))
                 rigidbody.AddForce(new Vector2(-50, 0));
             if (Input.GetKey(KeyCode.D))
                 rigidbody.AddForce(new Vector2(50, 0));
+            #else
+            if(Input.touchCount>0)
+            {
+                Touch touch = Input.touches[0];
+                if (touch.phase == TouchPhase.Stationary)
+                {
+                    if (touch.position.x < TouchSeperator)
+                        rigidbody.AddForce(new Vector2(-50, 0));
+                    else if (touch.position.x >= TouchSeperator)
+                        rigidbody.AddForce(new Vector2(50, 0));
+                }
+            }
+            #endif 
         }
         if(Toclamp)
          transform.position = new Vector3(Mathf.Clamp(transform.position.x, -5.0f, 5.0f), transform.position.y);
@@ -51,6 +68,10 @@ public class Magnet : MonoBehaviour {
 				//Debug.Log(MagEnvInteraction.CurrentFieldRadius);
 				audio.clip = absorb;	
 				audio.Play ();
+            }
+            else if(other.gameObject.tag == "Respawn")
+            {
+                generator.instance.EndGame();
             }
     }
     void OnCollisionEnter2D(Collision2D other)
