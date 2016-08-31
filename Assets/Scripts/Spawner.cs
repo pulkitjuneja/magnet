@@ -5,25 +5,24 @@ public class Spawner : MonoBehaviour {
 
     public bool CanSpawn = true;
     public GameObject ToSpawn = null;
-	void Start () {
-	
-	}
-
-	void Update () {
-	
-	}
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        CanSpawn = false; 
-    }
-    void OnTriggerExit2D(Collider2D other)
-    {
-        CanSpawn = true;
-        if(ToSpawn != null)
+        if (other.gameObject.tag != "level" && other.gameObject.tag!="absorbable")
         {
-            Spawn(ToSpawn);
-            ToSpawn = null;
+            CanSpawn = false;
+        }
+    }
+    void OnTriggerExit2D(Collider2D other )
+    {
+        if (other.gameObject.tag != "level" && other.gameObject.tag != "absorbable")
+        {
+            CanSpawn = true;
+            if (ToSpawn != null)
+            {
+                Spawn(ToSpawn);
+                ToSpawn = null;
+            }
         }
     }
 
@@ -33,7 +32,6 @@ public class Spawner : MonoBehaviour {
         {
             var pos = this.transform.position;
             GameObject pickup = Instantiate(spawn, pos, Quaternion.identity) as GameObject;
-            pickup.GetComponent<Rigidbody2D>().velocity = new Vector2(0, generator.gamespeed);
         }
         else
         {

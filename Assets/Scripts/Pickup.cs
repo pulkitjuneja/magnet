@@ -15,7 +15,7 @@ public class Pickup : MonoBehaviour {
 	
 	void Update () 
     {
-	
+        transform.Translate(Vector3.up * GamePlay.gamespeed * Time.deltaTime,Space.World);
 	}
 
     void OnTriggerEnter2D(Collider2D other)
@@ -32,7 +32,11 @@ public class Pickup : MonoBehaviour {
              if (audio.clip != null)
                  audio.Play();
         }
-        else if(other.tag=="Respawn")
+    }
+
+    void onTriggerExit2D(Collider2D other)
+    {
+        if (other.tag == "Respawn")
         {
             Destroy(this.gameObject);
         }
@@ -41,13 +45,12 @@ public class Pickup : MonoBehaviour {
     void DownSize(GameObject player)
     {
         var TargetScale = Mathf.Clamp (player.transform.localScale.x - 0.5f,1,500);
-        player.transform.localScale = new Vector3(TargetScale, TargetScale);
-       // harmonicMotion.temp = Mathf.Clamp(harmonicMotion.temp - 12.5f, 0, 500);
-        Debug.Log(harmonicMotion.temp);
+        harmonicMotion.temp = Mathf.Clamp(harmonicMotion.temp - 12.5f, 0, 500);
+        player.transform.localScale = new Vector3(TargetScale, TargetScale,TargetScale);
     }
 
     void ReduceTime()
     {
-        Time.timeScale = Mathf.Clamp(Time.timeScale - 2.0f, 1, 5.0f);
+        GamePlay.gamespeed = Mathf.Clamp(GamePlay.gamespeed-5.0f, 5, 18.0f);
     }
 }
