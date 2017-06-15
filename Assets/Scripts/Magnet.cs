@@ -12,6 +12,7 @@ public class Magnet : MonoBehaviour {
     CircleCollider2D collider;
     CircleCollider2D magField;
 	SpriteRenderer boost;
+    harmonicMotion fieldMotionCOntroller;
     bool ControlsDisabled = false;
     AudioSource audio;
     public event Action GameOverEvent;
@@ -21,8 +22,10 @@ public class Magnet : MonoBehaviour {
 	
 	void Start () 
 	{
+        
 		animator = GetComponent<Animator>();
         audio = GetComponent<AudioSource>();
+        fieldMotionCOntroller = GetComponentInChildren<harmonicMotion>();
         collider = GetComponent<CircleCollider2D>();
         TouchSeperator = Screen.width / 2;
         magField = GetComponentsInChildren<CircleCollider2D>()[1];
@@ -30,6 +33,16 @@ public class Magnet : MonoBehaviour {
 		rigidbody = GetComponent<Rigidbody2D>();
 		boost.enabled = false;
 	}
+
+    void Awake()
+    {
+        GameObject[] magnets = GameObject.FindGameObjectsWithTag("Player");
+        if (magnets.Length > 1)
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
 	void Update () 
     {
         if (!ControlsDisabled)
@@ -66,7 +79,7 @@ public class Magnet : MonoBehaviour {
                 rigidbody.mass += 0.02f;
                 transform.localScale += new Vector3(0.02f, 0.02f,0f);
                 MagEnvInteraction.CurrentFieldRadius = MagEnvInteraction.InitialFieldRadius * transform.localScale.x;
-				harmonicMotion.temp += 0.5f;
+                harmonicMotion.temp += 0.5f;
 				audio.clip = absorb;	
 				audio.Play ();
             }
@@ -127,7 +140,12 @@ public class Magnet : MonoBehaviour {
 
     void OnDestroy()
     {
-        if(GameOverEvent!=null)
-           GameOverEvent();
+        GameObject[] magnets = GameObject.FindGameObjectsWithTag("Player");
+        if (magnets.Length == 0)
+        {
+            if (GameOverEvent != null)
+                GameOverEvent();
+        }
+        
     }
 }

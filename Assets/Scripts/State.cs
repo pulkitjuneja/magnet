@@ -13,6 +13,8 @@ using System;
         }
 
         public virtual void TriggerExit2D(Collider2D other){}
+
+        public virtual void OnGUI(){}
     }
 
     public class StateMachine<T,Z,M> : State<T> where M : MonoBehaviour
@@ -83,5 +85,9 @@ using System;
             Current.TriggerExit2D(other);
         }
 
+        public void OnGUI()
+        {
+        	Current.OnGUI();
+        }
     }
 

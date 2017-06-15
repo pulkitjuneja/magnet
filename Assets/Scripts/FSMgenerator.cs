@@ -35,4 +35,9 @@ using UnityEngine.UI;
         {
             fsm.TriggerExit2D(other);
         }
+
+        void OnGUI()
+        {
+        	fsm.OnGUI();
+        }
     }

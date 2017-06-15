@@ -3,10 +3,12 @@ using System.Collections;
 
 public class harmonicMotion : MonoBehaviour {
 
-	public float offset;
+	private float offset = -2;
 	public float speed;
-	private float Z,pos;
-	public static float temp;
+    private int multiplier = 1;
+    private float Z, pos;
+    public static float temp = 0;
+
 
 	void Start () {
 		pos = transform.position.z;
@@ -14,13 +16,17 @@ public class harmonicMotion : MonoBehaviour {
 		Z = pos;
 	}
 	void Update () {
-        if (pos - Z < offset)
+        Z = Z -  speed * Time.unscaledDeltaTime;
+        if (Z < offset)
         {
-            Z = Z - speed * Time.unscaledDeltaTime;
-            transform.position = new Vector3(transform.position.x, transform.position.y, Z);
-        }
-        else
             Z = pos;
-		GetComponent<Light> ().spotAngle = 23.0f + temp;
-	}
+        }
+       // else if(Z>pos)
+       // {
+       //     multiplier = 1;
+       // }
+        transform.position = new Vector3(transform.position.x, transform.position.y, Z);
+        GetComponent<Light>().spotAngle = 23.0f + temp;
+
+    }
 }

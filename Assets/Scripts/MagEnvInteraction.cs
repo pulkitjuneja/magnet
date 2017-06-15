@@ -25,7 +25,7 @@ public class MagEnvInteraction : MonoBehaviour {
         {
             Vector2 direction = Vector3.Normalize(OtherBody.position - transform.position);
             float distance = Mathf.Min(Mathf.Abs(OtherBody.position.x - transform.position.x), CurrentFieldRadius);
-            float MagStr = (CurrentFieldRadius / distance) * 15;
+            float MagStr = (CurrentFieldRadius / distance) * 20; // maginc number to control pulling strength
             direction.y = 0;
             Parentrigidbody.AddForce(direction * (MagStr * PullDirection), ForceMode2D.Force);
         }
