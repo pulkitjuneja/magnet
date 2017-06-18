@@ -44,6 +44,7 @@ public class Buttons : MonoBehaviour {
 
     void ExitToMenu()
     {
+        Time.timeScale = 1.0f;
         MainStateMachine.instance.SetState(typeof(MenuState), false, new object[]{MainStateMachine.instance});
     }
 

@@ -34,9 +34,9 @@ public class Pickup : MonoBehaviour {
         }
     }
 
-    void onTriggerExit2D(Collider2D other)
+    void OnTriggerExit2D(Collider2D other)
     {
-        if (other.tag == "Respawn")
+        if (other.gameObject.tag == "Respawn")
         {
             Destroy(this.gameObject);
         }

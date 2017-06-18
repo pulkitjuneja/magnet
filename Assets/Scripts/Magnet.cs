@@ -3,36 +3,37 @@ using System;
 using System.Collections;
 
 
-public class Magnet : MonoBehaviour {
-	
-	public Rigidbody2D rigidbody;
-	public AudioClip absorb;
+public class Magnet : MonoBehaviour
+{
+
+    public Rigidbody2D rigidbody;
+    public AudioClip absorb;
     bool Toclamp = false;
-	public AudioClip hit;
+    public AudioClip hit;
     CircleCollider2D collider;
     CircleCollider2D magField;
-	SpriteRenderer boost;
+    SpriteRenderer boost;
     harmonicMotion fieldMotionCOntroller;
     bool ControlsDisabled = false;
     AudioSource audio;
     public event Action GameOverEvent;
-	Animator animator;
+    Animator animator;
 
     float TouchSeperator;
-	
-	void Start () 
-	{
-        
-		animator = GetComponent<Animator>();
+
+    void Start()
+    {
+
+        animator = GetComponent<Animator>();
         audio = GetComponent<AudioSource>();
         fieldMotionCOntroller = GetComponentInChildren<harmonicMotion>();
         collider = GetComponent<CircleCollider2D>();
         TouchSeperator = Screen.width / 2;
         magField = GetComponentsInChildren<CircleCollider2D>()[1];
-		boost = GetComponentsInChildren<SpriteRenderer> () [1] ;
-		rigidbody = GetComponent<Rigidbody2D>();
-		boost.enabled = false;
-	}
+        boost = GetComponentsInChildren<SpriteRenderer>()[1];
+        rigidbody = GetComponent<Rigidbody2D>();
+        boost.enabled = false;
+    }
 
     void Awake()
     {
@@ -43,16 +44,16 @@ public class Magnet : MonoBehaviour {
         }
     }
 
-	void Update () 
+    void Update()
     {
         if (!ControlsDisabled)
         {
-             #if  UNITY_STANDALONE || UNITY_WEBPLAYER
+#if UNITY_STANDALONE || UNITY_WEBPLAYER
             if (Input.GetKey(KeyCode.A))
                 rigidbody.AddForce(new Vector2(-50, 0));
             if (Input.GetKey(KeyCode.D))
                 rigidbody.AddForce(new Vector2(50, 0));
-            #else
+#else
             if(Input.touchCount>0)
             {
                 Touch touch = Input.touches[0];
@@ -64,38 +65,38 @@ public class Magnet : MonoBehaviour {
                         rigidbody.AddForce(new Vector2(2000* Time.deltaTime, 0));
                 }
             }
-            #endif 
+#endif
         }
-        if(Toclamp)
-         transform.position = new Vector3(Mathf.Clamp(transform.position.x, -5.0f, 5.0f), transform.position.y);
-	}
+        if (Toclamp)
+            transform.position = new Vector3(Mathf.Clamp(transform.position.x, -5.0f, 5.0f), transform.position.y);
+    }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-            if(other.gameObject.tag == "absorbable")
-			{	
-				animator.SetInteger("state",1);
-                Destroy(other.gameObject);
-                rigidbody.mass += 0.02f;
-                transform.localScale += new Vector3(0.02f, 0.02f,0f);
-                MagEnvInteraction.CurrentFieldRadius = MagEnvInteraction.InitialFieldRadius * transform.localScale.x;
-                harmonicMotion.temp += 0.5f;
-				audio.clip = absorb;	
-				audio.Play ();
-            }
-            else if(other.gameObject.tag == "Respawn")
-            {
-                Debug.Log("error");
-            }
+        if (other.gameObject.tag == "absorbable")
+        {
+            animator.SetInteger("state", 1);
+            Destroy(other.gameObject);
+            rigidbody.mass += 0.02f;
+            transform.localScale += new Vector3(0.02f, 0.02f, 0f);
+            MagEnvInteraction.CurrentFieldRadius = MagEnvInteraction.InitialFieldRadius * transform.localScale.x;
+            harmonicMotion.temp += 0.5f;
+            audio.clip = absorb;
+            audio.Play();
+        }
+        else if (other.gameObject.tag == "Respawn")
+        {
+            Debug.Log("error");
+        }
     }
     void OnCollisionEnter2D(Collision2D other)
     {
-		animator.SetInteger ("state", 2);
+        animator.SetInteger("state", 2);
         rigidbody.isKinematic = true;
         transform.parent = other.gameObject.transform;
-		audio.clip = hit;
-		audio.Play ();
-	}
+        audio.clip = hit;
+        audio.Play();
+    }
 
     public void beInvincible()
     {
@@ -114,28 +115,28 @@ public class Magnet : MonoBehaviour {
         {
             yield return null;
         }
-        rigidbody.velocity=Vector2.zero;
+        rigidbody.velocity = Vector2.zero;
         collider.enabled = false;
         magField.enabled = false;
-		boost.enabled = true;
+        boost.enabled = true;
         GamePlay.gamespeed = 23.0f;
         float time = Time.realtimeSinceStartup + 3.0f;
-        while(Time.realtimeSinceStartup<time)
+        while (Time.realtimeSinceStartup < time)
         {
-            yield return null ;
+            yield return null;
         }
         ControlsDisabled = false;
         GamePlay.gamespeed = originalspeed;
         Toclamp = true;
         float recovertime = Time.realtimeSinceStartup + 2.0f;
-        while(Time.realtimeSinceStartup<recovertime)
+        while (Time.realtimeSinceStartup < recovertime)
         {
             yield return null;
         }
-        collider.enabled = true; 
+        collider.enabled = true;
         magField.enabled = true;
         Toclamp = false;
-		boost.enabled = false;
+        boost.enabled = false;
     }
 
     void OnDestroy()
@@ -143,9 +144,9 @@ public class Magnet : MonoBehaviour {
         GameObject[] magnets = GameObject.FindGameObjectsWithTag("Player");
         if (magnets.Length == 0)
         {
-            if (GameOverEvent != null)
+            Debug.Log("magnet destroyed");
+            if(GameOverEvent!=null)
                 GameOverEvent();
         }
-        
     }
 }
