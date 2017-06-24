@@ -1,17 +1,12 @@
 ﻿Shader "magnetDistortion"
 {
 	Properties{
-		_DisplaceTex("displacement texture",2D) = "white"{}
+		//_DisplaceTex("displacement texture",2D) = "white"{}
 	}
 		SubShader
 	{
 		Tags{ "Queue" = "Transparent" }
-		Zwrite on
 
-		GrabPass
-	{
-		"_BackgroundTexture"
-	}
 		Pass
 	{
 		CGPROGRAM
@@ -21,30 +16,23 @@
 
 		struct v2f
 	{
-		float4 grabPos : TEXCOORD0;
 		float4 disuv : TEXCOORD1;
 		float4 pos : SV_POSITION;
+		float4 pos2 : TEXCOORD0;
 	};
 
 	v2f vert(appdata_full v) {
 		v2f o;
 		o.disuv = v.texcoord;
-		o.pos = mul(UNITY_MATRIX_MVP,v.vertex);
-		o.grabPos = ComputeGrabScreenPos(o.pos);
+		o.pos2 = v.vertex;
+		o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
 		return o;
 	}
 
-	sampler2D _BackgroundTexture;
-	sampler2D _DisplaceTex;
-
-	half4 frag(v2f i) : SV_Target
+	half4 frag(v2f i) : COLOR
 	{
-		float2 animcoords = float2(i.disuv.x + _Time.x * 2,i.disuv.y + _Time.x * 2);
-		float2 disp = tex2D(_DisplaceTex,animcoords);
-		disp = ((disp * 2) - 1)*0.1;
-		float4 coords = i.grabPos + float4(disp,0,1);
-		float4 color = tex2Dproj(_BackgroundTexture,UNITY_PROJ_COORD(coords));
-		return color;
+		float dis = i.pos.x*i.pos.x + i.pos.y*i.pos.y;
+	    return  half4(i.pos2.x,0,0, 1.0);
 	}
 		ENDCG
 	}

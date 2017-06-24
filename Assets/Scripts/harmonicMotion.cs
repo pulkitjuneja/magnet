@@ -3,29 +3,30 @@ using System.Collections;
 
 public class harmonicMotion : MonoBehaviour {
 
-	private float offset = 6.0f;
-	public float speed;
-    private int multiplier = 1;
-    private float Z, pos;
-    private Light spotLight;
     public static float temp = 0;
+    public float fadeDuration;
+    public float initialLocalScale, finalLocalScale, initialOpacity, finalOpacity;
+    float scale, opacity, startTime;
+    private SpriteRenderer spriteRenderer;
 
+    void Start() {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        transform.localScale = new Vector3(initialLocalScale, initialLocalScale, 1);
+        spriteRenderer.color = new Color(1f, 1f, 1f, initialOpacity);
+        startTime = Time.time;
 
-	void Start () {
-		pos = transform.position.z;
-        spotLight = GetComponent<Light>();
-        temp = 0;
-		Z = pos;
-	}
-    void Update()
-    {
-        if (pos - Z < offset)
-        {
-            Z = Z - speed * Time.deltaTime;
-            transform.position = new Vector3(transform.position.x, transform.position.y, Z);
+    }
+
+    void Update() {
+        if (!spriteRenderer.enabled)
+            spriteRenderer.enabled = true;
+        float t = (Time.time - startTime) / fadeDuration;
+        scale = Mathf.SmoothStep(initialLocalScale, finalLocalScale, t);
+        opacity = Mathf.SmoothStep(initialOpacity, finalOpacity, t);
+        transform.localScale = new Vector3(scale, scale, 1);
+        spriteRenderer.color = new Color(1f, 1f, 1f, opacity);
+        if (Time.time - startTime > fadeDuration) {
+            startTime = Time.time;
         }
-        else
-            Z = pos;
-        spotLight.spotAngle = 23.0f + temp;
     }
 }
