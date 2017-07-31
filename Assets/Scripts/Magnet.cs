@@ -30,7 +30,7 @@ public class Magnet : MonoBehaviour
         collider = GetComponent<CircleCollider2D>();
         TouchSeperator = Screen.width / 2;
         magField = GetComponentsInChildren<CircleCollider2D>()[1];
-        boost = GetComponentsInChildren<SpriteRenderer>()[1];
+        boost = GetComponentsInChildren<SpriteRenderer>()[2];
         rigidbody = GetComponent<Rigidbody2D>();
         boost.enabled = false;
     }
