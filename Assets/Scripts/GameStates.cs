@@ -11,12 +11,14 @@ public abstract class GameRunning : State<MainStateMachine> {
     public LevelPiece lastPiece;
     public static float gamespeed = 5;
     int numBlocks = 5;
+	public backgroundController bgController;
     Transform transform;
     public int StraightCount = 32;
     public Vector3 levelGenPos;
     public GameRunning(MainStateMachine g) : base(g) {
         transform = ParentMachine.Component.transform;
         camera = Camera.main;
+		bgController = backgroundController.getInstance ();
         levelHeight = 10;
         levelGenPos = new Vector3(transform.position.x, (transform.position.y - (numBlocks - 0.5f) * levelHeight) + 0.15f, 0);
     }
@@ -101,6 +103,7 @@ class MenuState : GameRunning {
         ParentMachine.Component.StartMenu.SetActive(true);
         while (ParentMachine.Current.GetType() == GetType()) {
             AdvanceLevelPosition();
+			bgController.update (gamespeed);
             yield return null;
         }
         removesections();
@@ -128,7 +131,7 @@ class GamePlay : GameRunning {
     public LevelPiece LastPickup;
     public Spawner[] spawners;
     bool Paused;
-    public float SpawnMin = 2.0f, SpawnMax = 4.0f, spTime;
+    public float SpawnMin = 8.0f, SpawnMax = 16.0f, spTime;
     public GamePlay(MainStateMachine m) : base(m) {
         Camera camera = Camera.main;
         spawners = ParentMachine.Component.spawners;
@@ -137,7 +140,6 @@ class GamePlay : GameRunning {
         Score = 0;
         Distance.text = Score.ToString();
         var magnets = GameObject.FindGameObjectsWithTag("Player");
-        Debug.Log(magnets.Length);
         if (magnets.Length > 0) {
             Magnet = magnets[0];
         }
@@ -169,6 +171,7 @@ class GamePlay : GameRunning {
                 continue;
             }
             AdvanceLevelPosition();
+			bgController.update (gamespeed);
             ElapsedTime += Time.unscaledDeltaTime;
             SpawnTimer += Time.unscaledDeltaTime;
 

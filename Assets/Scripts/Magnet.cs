@@ -75,7 +75,6 @@ public class Magnet : MonoBehaviour
     {
         if (other.gameObject.tag == "absorbable")
         {
-            animator.SetInteger("state", 1);
             Destroy(other.gameObject);
             rigidbody.mass += 0.02f;
             transform.localScale += new Vector3(0.02f, 0.02f, 0f);
@@ -91,7 +90,8 @@ public class Magnet : MonoBehaviour
     }
     void OnCollisionEnter2D(Collision2D other)
     {
-        animator.SetInteger("state", 2);
+		Debug.Log ("collided");
+		rigidbody.velocity = Vector2.zero;
         rigidbody.isKinematic = true;
         transform.parent = other.gameObject.transform;
         audio.clip = hit;
