@@ -12,7 +12,7 @@ public class Buttons : MonoBehaviour {
         {
             switch(butt.gameObject.name)
             {
-                case "NewGame": butt.onClick.AddListener(() => NewGameListener()); break;
+                //case "NewGame": butt.onClick.AddListener(() => NewGameListener()); break;
                 case "Exit": butt.onClick.AddListener(() => ExitListener()); break;
                 case "Pause": butt.onClick.AddListener(() => PauseListener()); break;
                 case "Resume": butt.onClick.AddListener(() => ResumeListener()); break;
@@ -22,7 +22,7 @@ public class Buttons : MonoBehaviour {
         }
 	}
 
-    void NewGameListener()
+    public void NewGameListener()
     {
         MainStateMachine.instance.SetState(typeof(GamePlay), false, new object[]{MainStateMachine.instance});
     }

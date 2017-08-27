@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 5940cf9576c896243854b1214a85cf2b
+timeCreated: 1503180562
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: NeonTech
+  fontNames:
+  - NeonTech
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

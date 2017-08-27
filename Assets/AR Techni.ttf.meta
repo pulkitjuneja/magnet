@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 900eded7a3b25a3459cf1e5ff8fa569e
+timeCreated: 1503180699
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: AR Techni
+  fontNames:
+  - AR Techni
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

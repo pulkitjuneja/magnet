@@ -9,7 +9,7 @@ public class Magnet : MonoBehaviour
     public Rigidbody2D rigidbody;
     public AudioClip absorb;
     bool Toclamp = false;
-    public AudioClip hit;
+    public AudioClip hit , boostSound,timeSlow;
     CircleCollider2D collider;
     CircleCollider2D magField;
     SpriteRenderer boost;
@@ -108,6 +108,8 @@ public class Magnet : MonoBehaviour
     {
         float originalspeed = GamePlay.gamespeed;
         GamePlay.gamespeed = 1;
+        audio.clip = timeSlow;
+        audio.Play();
         ControlsDisabled = true;
         rigidbody.velocity = Vector2.zero;
         float time1 = Time.realtimeSinceStartup + 1.0f;
@@ -118,8 +120,11 @@ public class Magnet : MonoBehaviour
         rigidbody.velocity = Vector2.zero;
         collider.enabled = false;
         magField.enabled = false;
+        Camera.main.GetComponent<CameraJiggle>().jiggleCam(0.05f, 1f);
         boost.enabled = true;
         GamePlay.gamespeed = 23.0f;
+        audio.clip = boostSound;
+        audio.Play();
         float time = Time.realtimeSinceStartup + 3.0f;
         while (Time.realtimeSinceStartup < time)
         {
@@ -149,4 +154,5 @@ public class Magnet : MonoBehaviour
                 GameOverEvent();
         }
     }
+
 }
