@@ -15,7 +15,7 @@ class GamePlay : GameRunning {
     bool Paused;
     Animator InGameUiAnimator;
     GameObject PauseMenu;
-    public float SpawnMin = 2.0f, SpawnMax = 4.0f, spTime;
+    public float SpawnMin = 8.0f, SpawnMax = 16.0f, spTime;
     public GamePlay(MainStateMachine m) : base(m) {
         Camera camera = Camera.main;
         spawners = ParentMachine.Component.spawners;
@@ -93,7 +93,7 @@ class GamePlay : GameRunning {
     void SpawnPickups() {
         var spawner = spawners[UnityEngine.Random.Range(0, spawners.Length)];
         int r = UnityEngine.Random.Range(0, 11);
-        int sp =  1;//r < 6 ? 0 : ( r < 8 ? 1 : 2 );
+        int sp =  r < 6 ? 0 : ( r < 8 ? 1 : 2 );
         spawner.Spawn(ParentMachine.Component.powerups[sp]);
     }
     public override void TriggerExit2D(Collider2D other) {
