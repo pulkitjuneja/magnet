@@ -16,8 +16,6 @@ using UnityEngine.UI;
         public Spawner[] spawners;
         public GameObject[] powerups;
         public GameObject[] levels;
-        public GameObject StartMenu, EndMenu ,InGameUi,PauseMenu;
-        public Text  FinalScore;
 
         void Awake()
         {

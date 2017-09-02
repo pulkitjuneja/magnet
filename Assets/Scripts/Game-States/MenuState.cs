@@ -4,7 +4,10 @@ using UnityEngine.UI;
 using System;
 
 class MenuState : GameRunning {
+
+    Animator StartScreenAnimator ;
     public MenuState(MainStateMachine g) : base(g) {
+        StartScreenAnimator = GameObject.Find("Start Menu").GetComponent<Animator>();
         if (!PlayerPrefs.HasKey(FSMgenerator.SCORE_KEY)) {
             PlayerPrefs.SetInt(FSMgenerator.SCORE_KEY, 0);
             PlayerPrefs.Save();
@@ -30,14 +33,14 @@ class MenuState : GameRunning {
 
     public override IEnumerator run() {
         spawnStart(7);
-        ParentMachine.Component.StartMenu.SetActive(true);
+        StartScreenAnimator.SetBool("visible",true);
         while (ParentMachine.Current.GetType() == GetType()) {
             AdvanceLevelPosition();
 			bgController.update (gamespeed);
             yield return null;
         }
         removesections();
-        ParentMachine.Component.StartMenu.SetActive(false);
+        StartScreenAnimator.SetBool("visible",false);
     }
 
     public override void SpawnLevel() {

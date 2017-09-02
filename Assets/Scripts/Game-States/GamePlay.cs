@@ -13,12 +13,17 @@ class GamePlay : GameRunning {
     public LevelPiece LastPickup;
     public Spawner[] spawners;
     bool Paused;
+    Animator InGameUiAnimator;
+    GameObject PauseMenu;
     public float SpawnMin = 2.0f, SpawnMax = 4.0f, spTime;
     public GamePlay(MainStateMachine m) : base(m) {
         Camera camera = Camera.main;
         spawners = ParentMachine.Component.spawners;
-        ParentMachine.Component.InGameUi.SetActive(true);
-        Distance = ParentMachine.Component.InGameUi.GetComponentInChildren<Text>();
+        var InGameUiObject = GameObject.Find("InGameUi");
+        PauseMenu =  GameObject.Find("Canvas").transform.FindChild("PauseMenu").gameObject;
+        Distance = InGameUiObject.GetComponentInChildren<Text>();
+        InGameUiAnimator = InGameUiObject.GetComponent<Animator>();
+        InGameUiAnimator.SetBool("visible",true);
         Score = 0;
         Distance.text = Score.ToString();
         var magnets = GameObject.FindGameObjectsWithTag("Player");
@@ -34,16 +39,16 @@ class GamePlay : GameRunning {
     }
 
     public void onPause() {
-        Time.timeScale = 0f;
         Paused = true;
-        ParentMachine.Component.InGameUi.SetActive(false);
-        ParentMachine.Component.PauseMenu.SetActive(true);
+        InGameUiAnimator.SetBool("visible",false);
+        PauseMenu.SetActive(true);
+        Time.timeScale = 0f;
     }
     public void onResume() {
         Time.timeScale = 1.0f;
         Paused = false;
-        ParentMachine.Component.PauseMenu.SetActive(false);
-        ParentMachine.Component.InGameUi.SetActive(true);
+        PauseMenu.SetActive(false);
+        InGameUiAnimator.SetBool("visible",true);
     }
     public override IEnumerator run() {
         spawnStart(2);
@@ -70,8 +75,8 @@ class GamePlay : GameRunning {
 
             yield return null;
         }
-        ParentMachine.Component.InGameUi.SetActive(false);
-        ParentMachine.Component.PauseMenu.SetActive(false);
+        InGameUiAnimator.SetBool("visible",false);
+        PauseMenu.SetActive(false);
         if (Magnet != null) {
             Magnet.GetComponent<Magnet>().GameOverEvent -= GameOver;
            // GameObject.Destroy(Magnet); //sucky fix have to improve
