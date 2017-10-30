@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using System;
 
-class GamePlay : GameRunning {
+public class GamePlay : GameRunning {
     public static int Score;
     GameObject Magnet;
     public Text Distance;

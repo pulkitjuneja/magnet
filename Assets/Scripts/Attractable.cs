@@ -8,6 +8,7 @@ public class Attractable : MonoBehaviour {
     Transform parent;
     public Rigidbody2D rigidbody;
     Transform MagnetLocation;
+    float destroyTimer = 0.0f;
     public GameObject Magnet; 
 
 
@@ -29,6 +30,12 @@ public class Attractable : MonoBehaviour {
             float magnetstr = (MagEnvInteraction.CurrentFieldRadius/magnetDistance)*500;
             rigidbody.AddForce(direction * magnetstr, ForceMode2D.Force);
         }
+        if(destroyTimer > 0) {
+            destroyTimer -= Time.deltaTime;
+            if(destroyTimer <= 0) {
+                Destroy(this.gameObject);
+            } 
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -40,6 +47,7 @@ public class Attractable : MonoBehaviour {
             rigidbody.isKinematic = false;
             MagnetLocation = other.transform;
             inMagnetRange = true;
+            destroyTimer = 3.0f;
         }
     }
     void OnTriggerExit2D(Collider2D other)
@@ -47,9 +55,7 @@ public class Attractable : MonoBehaviour {
         if (other.gameObject.name == FieldObjectName)
         {
             rigidbody.isKinematic = true;
-            transform.parent = parent;
-            inMagnetRange = false;
-            MagnetLocation = null;
+            Destroy(this.gameObject);
         }
     }
  }

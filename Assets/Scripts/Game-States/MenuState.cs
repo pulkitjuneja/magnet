@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using System;
 
-class MenuState : GameRunning {
+public class MenuState : GameRunning {
 
     Animator StartScreenAnimator ;
     public MenuState(MainStateMachine g) : base(g) {

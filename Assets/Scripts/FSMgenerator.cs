@@ -25,6 +25,7 @@ using UnityEngine.UI;
         void Start()
         {
             Camera camera = Camera.main;
+            AudioManager.musicSource = camera.GetComponent<AudioSource>();
             this.transform.position = new Vector3(transform.position.x, (camera.transform.position.y + camera.orthographicSize) - 0.05f);
             StartCoroutine(fsm.run());
         }

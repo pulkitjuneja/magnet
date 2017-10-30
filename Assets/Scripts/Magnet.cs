@@ -80,8 +80,7 @@ public class Magnet : MonoBehaviour
             transform.localScale += new Vector3(0.02f, 0.02f, 0f);
             MagEnvInteraction.CurrentFieldRadius = MagEnvInteraction.InitialFieldRadius * transform.localScale.x;
             harmonicMotion.temp += 0.5f;
-            audio.clip = absorb;
-            audio.Play();
+            AudioManager.play(audio,absorb);
         }
         else if (other.gameObject.tag == "Respawn")
         {
@@ -94,8 +93,7 @@ public class Magnet : MonoBehaviour
 		rigidbody.velocity = Vector2.zero;
         rigidbody.isKinematic = true;
         transform.parent = other.gameObject.transform;
-        audio.clip = hit;
-        audio.Play();
+        AudioManager.play(audio,hit);
     }
 
     public void beInvincible()
@@ -123,8 +121,7 @@ public class Magnet : MonoBehaviour
         Camera.main.GetComponent<CameraJiggle>().jiggleCam(0.05f, 1f);
         boost.enabled = true;
         GamePlay.gamespeed = 23.0f;
-        audio.clip = boostSound;
-        audio.Play();
+        AudioManager.play(audio,boostSound);
         float time = Time.realtimeSinceStartup + 3.0f;
         while (Time.realtimeSinceStartup < time)
         {

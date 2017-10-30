@@ -2,9 +2,11 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class Buttons : MonoBehaviour {
+class UiManager : MonoBehaviour {
+    bool isSfxToggled = true;
+    bool isMusicToggled = true;
 
-
+    public Sprite sfxOn, sfxOff, musicOn, musicOff;
 	void Start () {
 
         Button[] buttons = GetComponentsInChildren<Button>();
@@ -17,7 +19,8 @@ public class Buttons : MonoBehaviour {
                 case "Pause": butt.onClick.AddListener(() => PauseListener()); break;
                 case "Resume": butt.onClick.AddListener(() => ResumeListener()); break;
                 case "ExitToMenu": butt.onClick.AddListener(() => ExitToMenu()); break;
-                 
+                case "toggleMusic": butt.onClick.AddListener(()=> toggleMusic(butt)); break;
+                case "toggleSfx": butt.onClick.AddListener(()=> toggleSfx(butt)); break;
             }
         }
 	}
@@ -46,6 +49,26 @@ public class Buttons : MonoBehaviour {
     {
         Time.timeScale = 1.0f;
         MainStateMachine.instance.SetState(typeof(MenuState), false, new object[]{MainStateMachine.instance});
+    }
+
+    void toggleMusic(Button butt) {
+        isMusicToggled = !isMusicToggled;
+        AudioManager.toggleMusic(isMusicToggled);
+        if(isMusicToggled){
+            butt.gameObject.GetComponent<Image>().overrideSprite = musicOn;
+        } else {
+             butt.gameObject.GetComponent<Image>().overrideSprite = musicOff;
+        }
+    }
+
+    void toggleSfx(Button butt) {
+         isSfxToggled = !isSfxToggled;
+        AudioManager.toggleSFX(isSfxToggled);
+        if(isSfxToggled){
+            butt.gameObject.GetComponent<Image>().overrideSprite = sfxOn;
+        } else {
+             butt.gameObject.GetComponent<Image>().overrideSprite = sfxOff;
+        }
     }
 
 }

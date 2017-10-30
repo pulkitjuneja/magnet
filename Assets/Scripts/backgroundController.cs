@@ -46,7 +46,7 @@ public class backgroundController {
 		var firstPieceBottom = firstPiece.piece.transform.position.y - firstPieceSprite.bounds.extents.y * firstPiece.piece.transform.localScale.y;
 		var lastPieceBottom = lastPiece.piece.transform.position.y - lastPieceSprite.bounds.extents.y * lastPiece.piece.transform.localScale.y;
 		if(lastPieceBottom >= cameraBottom) {
-			var startPosition = firstPieceBottom - background.GetComponent<SpriteRenderer> ().sprite.bounds.extents.y*background.transform.localScale.y;
+			var startPosition = lastPieceBottom - background.GetComponent<SpriteRenderer> ().sprite.bounds.extents.y*background.transform.localScale.y;
 			lastPiece.next = new LevelPiece (background, new Vector3 (0, startPosition, 0));
 			lastPiece = lastPiece.next;
 		}
