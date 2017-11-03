@@ -15,8 +15,12 @@ public class GameOverState : State<MainStateMachine> {
         if (Score > PlayerPrefs.GetInt(FSMgenerator.SCORE_KEY)) {
             PlayerPrefs.SetInt(FSMgenerator.SCORE_KEY, Score);
             PlayerPrefs.Save();
-            NewBest = "New Best";
+            NewBest = "New Personal Best";
+        } else {
+         int personalBest = PlayerPrefs.GetInt(FSMgenerator.SCORE_KEY);
+         NewBest = "Personal Best " + personalBest.ToString();    
         }
+
         FinalScore.text = "You Fell\r\n" + Score.ToString() + "m\r\n" + NewBest;
     }
 

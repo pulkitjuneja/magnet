@@ -106,8 +106,7 @@ public class Magnet : MonoBehaviour
     {
         float originalspeed = GamePlay.gamespeed;
         GamePlay.gamespeed = 1;
-        audio.clip = timeSlow;
-        audio.Play();
+        AudioManager.play(audio, timeSlow);
         ControlsDisabled = true;
         rigidbody.velocity = Vector2.zero;
         float time1 = Time.realtimeSinceStartup + 1.0f;
@@ -131,8 +130,15 @@ public class Magnet : MonoBehaviour
         GamePlay.gamespeed = originalspeed;
         Toclamp = true;
         float recovertime = Time.realtimeSinceStartup + 2.0f;
+        float flickerTimeDelt = 0.0f,flickerTime = 0.2f; // TODO: do this using animator in boost gameObject
         while (Time.realtimeSinceStartup < recovertime)
         {
+            flickerTimeDelt += Time.deltaTime;
+            Debug.Log("here");
+            if(flickerTimeDelt>flickerTime) {
+                boost.enabled = !boost.enabled;
+                flickerTimeDelt = 0.0f;
+            }
             yield return null;
         }
         collider.enabled = true;
