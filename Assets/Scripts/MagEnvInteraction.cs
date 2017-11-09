@@ -48,6 +48,14 @@ public class MagEnvInteraction : MonoBehaviour {
         }
     }
 
+    public void modifyFieldRadius (int decider) {
+        if(decider > 0 ) {
+         CurrentFieldRadius = InitialFieldRadius *  this.transform.localScale.x;
+        } else {
+            CurrentFieldRadius = InitialFieldRadius;
+        }
+    }
+
     void OnTriggerExit2D(Collider2D other)
     {
         OtherBody = null;

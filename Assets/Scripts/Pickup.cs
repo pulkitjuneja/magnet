@@ -44,9 +44,10 @@ public class Pickup : MonoBehaviour {
 
     void DownSize(GameObject player)
     {
-        var TargetScale = Mathf.Clamp (player.transform.localScale.x - 0.5f,1,500);
-        harmonicMotion.temp = Mathf.Clamp(harmonicMotion.temp - 12.5f, 0, 500);
-        player.transform.localScale = new Vector3(TargetScale, TargetScale,TargetScale);
+        // var TargetScale = Mathf.Clamp (player.transform.localScale.x - 0.5f,1,500);
+        // harmonicMotion.temp = Mathf.Clamp(harmonicMotion.temp - 12.5f, 0, 500);
+        // player.transform.localScale = new Vector3(TargetScale, TargetScale,TargetScale);
+        player.GetComponent<Magnet>().downScale();
     }
 
     void ReduceTime()

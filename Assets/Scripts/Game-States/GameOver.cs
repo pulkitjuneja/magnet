@@ -36,7 +36,7 @@ public class GameOverState : State<MainStateMachine> {
     }
 
     void ResetGame() {
-        harmonicMotion.temp = 0;
+        
         GamePlay.gamespeed = 5;
     }
 
