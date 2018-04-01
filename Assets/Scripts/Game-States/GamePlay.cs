@@ -31,7 +31,6 @@ public class GamePlay : GameRunning {
             Magnet = magnets[0];
         } else {
             Magnet = GameObject.Instantiate (ParentMachine.Component.MagnetPrefab, new Vector3 (camera.transform.position.x, camera.transform.position.y + camera.orthographicSize / 2), Quaternion.identity) as GameObject;
-            Debug.Log ("here");
         }
         Magnet.GetComponent<Magnet> ().GameOverEvent += GameOver;
         Magnet.GetComponent<Magnet> ().ControlsDisabled = false;

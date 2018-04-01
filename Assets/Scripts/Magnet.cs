@@ -52,7 +52,6 @@ public class Magnet : MonoBehaviour {
 
     void move () {
         if (!ControlsDisabled) {
-            Debug.Log ("Called");
 #if UNITY_STANDALONE || UNITY_WEBPLAYER
             if (Input.GetKey (KeyCode.A))
                 rigidbody.AddForce (new Vector2 (-50, 0));
@@ -84,7 +83,6 @@ public class Magnet : MonoBehaviour {
         }
     }
     void OnCollisionEnter2D (Collision2D other) {
-        Debug.Log ("collided");
         rigidbody.velocity = Vector2.zero;
         rigidbody.isKinematic = true;
         transform.parent = other.gameObject.transform;
@@ -138,32 +136,31 @@ public class Magnet : MonoBehaviour {
     void OnDestroy () {
         GameObject[] magnets = GameObject.FindGameObjectsWithTag ("Player");
         if (magnets.Length == 0) {
-            Debug.Log ("magnet destroyed");
             if (GameOverEvent != null)
                 GameOverEvent ();
         }
     }
 
     void upscale () {
-        if (transform.GetChild (1).localScale.x < 2) {
+        if (transform.GetChild (1).localScale.x < 1.7) {
             rigidbody.mass += 0.02f;
             foreach (Transform transform in this.transform) {
-                transform.localScale += new Vector3 (0.05f, 0.05f, 0f);
+                transform.localScale += new Vector3 (0.02f, 0.02f, 0f);
             }
             fieldController.modifyFieldRadius (1);
-            fieldEffect.initialLocalScale += 0.05f;
-            fieldEffect.finalLocalScale += 0.05f;
+            fieldEffect.initialLocalScale += 0.02f;
+            fieldEffect.finalLocalScale += 0.02f;
             collider.radius = initialColliderRadius * transform.GetChild (1).localScale.x;
         }
     }
     public void downScale () {
         foreach (Transform transform in this.transform) {
-            var targetScale = Mathf.Clamp (transform.localScale.x - 0.5f, 1, 500);
+            var targetScale = Mathf.Clamp (transform.localScale.x - 0.7f, 1, 500);
             transform.localScale = new Vector3 (targetScale, targetScale, 1);
         }
         collider.radius = initialColliderRadius * transform.GetChild (1).localScale.x;
-        fieldEffect.initialLocalScale = Mathf.Clamp (fieldEffect.initialLocalScale - 0.5f, 1, 500);
-        fieldEffect.finalLocalScale = Mathf.Clamp (fieldEffect.finalLocalScale - 0.5f, 1, 500);
+        fieldEffect.initialLocalScale = Mathf.Clamp (fieldEffect.initialLocalScale - 0.7f, 1, 500);
+        fieldEffect.finalLocalScale = Mathf.Clamp (fieldEffect.finalLocalScale - 0.7f, 1, 500);
         rigidbody.mass = Mathf.Clamp (rigidbody.mass - 0.5f, 1, 500);
         fieldController.modifyFieldRadius (1);
     }
