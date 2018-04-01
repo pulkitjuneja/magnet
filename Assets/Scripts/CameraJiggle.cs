@@ -6,7 +6,7 @@ public class CameraJiggle : MonoBehaviour {
 
     float jiggleAmt = 0.0f;
 
-    void Update() {
+    void Update () {
         if (jiggleAmt > 0) {
             float quakeAmt = Random.value * jiggleAmt * 2 - jiggleAmt;
             Vector3 pp = transform.position;
@@ -15,13 +15,13 @@ public class CameraJiggle : MonoBehaviour {
         }
     }
 
-    public void jiggleCam(float amt, float duration) {
+    public void jiggleCam (float amt, float duration) {
         jiggleAmt = amt;
-        StartCoroutine(jiggleCam2(duration));
+        StartCoroutine (jiggleCam2 (duration));
     }
 
-    IEnumerator jiggleCam2(float duration) {
-        yield return new WaitForSeconds(duration);
+    IEnumerator jiggleCam2 (float duration) {
+        yield return new WaitForSeconds (duration);
         jiggleAmt = 0;
     }
 }
