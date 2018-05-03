@@ -119,6 +119,7 @@ public class GamePlay : GameRunning {
         Addlevel (p);
     }
     void GameOver () {
+        Debug.Log ("gameOver");
         ParentMachine.SetState (typeof (GameOverState), false, new object[] { ParentMachine, Score });
     }
 

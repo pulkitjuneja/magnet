@@ -16,15 +16,6 @@ public class MenuState : GameRunning {
             PlayerPrefs.SetInt (FSMgenerator.SCORE_KEY, 0);
             PlayerPrefs.Save ();
         }
-        var magnets = GameObject.FindGameObjectsWithTag ("Player");
-        GameObject Magnet;
-        if (magnets.Length > 0) {
-            Magnet = magnets[0];
-            Magnet.GetComponent<Magnet> ().reset ();
-        } else {
-            Magnet = GameObject.Instantiate (ParentMachine.Component.MagnetPrefab, new Vector3 (camera.transform.position.x, camera.transform.position.y + camera.orthographicSize / 2), Quaternion.identity) as GameObject;
-        }
-        Magnet.GetComponent<Magnet> ().ControlsDisabled = true;
     }
     public override void TriggerExit2D (Collider2D other) {
         if (other.gameObject.tag == "level") {
@@ -37,6 +28,15 @@ public class MenuState : GameRunning {
     }
 
     public override IEnumerator run () {
+        var magnets = GameObject.FindGameObjectsWithTag ("Player");
+        GameObject Magnet;
+        if (magnets.Length > 0) {
+            Magnet = magnets[0];
+            Magnet.GetComponent<Magnet> ().reset ();
+        } else {
+            Magnet = GameObject.Instantiate (ParentMachine.Component.MagnetPrefab, new Vector3 (camera.transform.position.x, camera.transform.position.y + camera.orthographicSize / 2), Quaternion.identity) as GameObject;
+        }
+        Magnet.GetComponent<Magnet> ().ControlsDisabled = true;
         spawnStart (7);
         StartScreenAnimator.SetBool ("visible", true);
         while (ParentMachine.Current.GetType () == GetType ()) {

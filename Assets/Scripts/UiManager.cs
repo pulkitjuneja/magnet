@@ -9,7 +9,7 @@ class UiManager : MonoBehaviour {
     public Sprite sfxOn, sfxOff, musicOn, musicOff;
     void Start () {
 
-        Button[] buttons = GetComponentsInChildren<Button> ();
+        Button[] buttons = GetComponentsInChildren<Button> (true);
         foreach (Button butt in buttons) {
             switch (butt.gameObject.name) {
                 case "NewGame":
@@ -44,7 +44,8 @@ class UiManager : MonoBehaviour {
     }
 
     public void NewGameListener () {
-        MainStateMachine.instance.SetState (typeof (GamePlay), false, new object[] { MainStateMachine.instance });
+        bool preserve = MainStateMachine.instance.Current.GetType () == typeof (MenuState) ? true : false; // need to preserve only the main menu state
+        MainStateMachine.instance.SetState (typeof (GamePlay), preserve, new object[] { MainStateMachine.instance });
     }
 
     void ExitListener () {
