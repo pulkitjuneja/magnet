@@ -17,6 +17,8 @@ public class Magnet : MonoBehaviour {
     public harmonicMotion fieldEffect;
     Animator animator;
 
+    ParticleSystem downScaleParticleEffect;
+
     MagEnvInteraction fieldController;
     float TouchSeperator;
     float initialColliderRadius;
@@ -27,6 +29,7 @@ public class Magnet : MonoBehaviour {
         fieldEffect = GetComponentInChildren<harmonicMotion> ();
         collider = GetComponent<CircleCollider2D> ();
         TouchSeperator = Screen.width / 2;
+        downScaleParticleEffect = GetComponent<ParticleSystem> ();
         fieldController = GetComponentInChildren<MagEnvInteraction> ();
         magField = GetComponentsInChildren<CircleCollider2D> () [1];
         boost = GetComponentsInChildren<SpriteRenderer> () [2];
@@ -154,15 +157,33 @@ public class Magnet : MonoBehaviour {
         }
     }
     public void downScale () {
+        StartCoroutine (downScaleAnimation ());
+    }
+
+    public IEnumerator downScaleAnimation () {
+        var initialFieldStartScale = fieldEffect.initialLocalScale;
+        var initialFieldEndScale = fieldEffect.finalLocalScale;
+        fieldEffect.initialLocalScale = fieldEffect.finalLocalScale = 0.01f;
         foreach (Transform transform in this.transform) {
             var targetScale = Mathf.Clamp (transform.localScale.x - 0.7f, 1, 500);
             transform.localScale = new Vector3 (targetScale, targetScale, 1);
         }
+        playDownScaleParticleSystem (transform.GetChild (1).localScale.x);
+        yield return new WaitForSeconds (1);
         collider.radius = initialColliderRadius * transform.GetChild (1).localScale.x;
-        fieldEffect.initialLocalScale = Mathf.Clamp (fieldEffect.initialLocalScale - 0.7f, 1, 500);
-        fieldEffect.finalLocalScale = Mathf.Clamp (fieldEffect.finalLocalScale - 0.7f, 1, 500);
+        fieldEffect.initialLocalScale = Mathf.Clamp (initialFieldStartScale - 0.7f, 1, 500);
+        fieldEffect.finalLocalScale = Mathf.Clamp (initialFieldEndScale - 0.7f, 1, 500);
         rigidbody.mass = Mathf.Clamp (rigidbody.mass - 0.5f, 1, 500);
         fieldController.modifyFieldRadius (1);
+    }
+
+    void playDownScaleParticleSystem (float localScale) {
+        int particleCount = (int) (Mathf.Round ((localScale - 0.9f) * 50));
+        Debug.Log (particleCount);
+        ParticleSystem.Burst[] bursts = new ParticleSystem.Burst[downScaleParticleEffect.emission.burstCount];
+        downScaleParticleEffect.emission.GetBursts (bursts);
+        bursts[0].minCount = bursts[0].maxCount = (short) particleCount;
+        downScaleParticleEffect.Play ();
     }
 
     public void reset () {
