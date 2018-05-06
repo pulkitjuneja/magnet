@@ -1,56 +1,55 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
 public class MagEnvInteraction : MonoBehaviour {
 
-    Transform ParentTransform ;
+    Transform ParentTransform;
     Rigidbody2D Parentrigidbody;
 
-    public static float CurrentFieldRadius,InitialFieldRadius;
+    public static float CurrentFieldRadius, InitialFieldRadius;
 
-    Transform OtherBody; 
+    Transform OtherBody;
     bool inMagneticInfluence = false;
-    int PullDirection ;
+    int PullDirection;
 
-	void Start () 
-    {
-	  ParentTransform = transform.parent.transform;
-      Parentrigidbody = transform.parent.gameObject.GetComponent<Rigidbody2D>();
-      CurrentFieldRadius = InitialFieldRadius = GetComponent<CircleCollider2D>().radius;
-	}
+    void Start () {
+        ParentTransform = transform.parent.transform;
+        Parentrigidbody = transform.parent.gameObject.GetComponent<Rigidbody2D> ();
+        CurrentFieldRadius = InitialFieldRadius = GetComponent<CircleCollider2D> ().radius;
+    }
 
-    void FixedUpdate()
-    {
-        if(inMagneticInfluence && OtherBody)
-        {
-            Vector2 direction = Vector3.Normalize(OtherBody.position - transform.position);
-            float distance = Mathf.Min(Mathf.Abs(OtherBody.position.x - transform.position.x), CurrentFieldRadius);
-            float MagStr = (CurrentFieldRadius / distance) * 15; // maginc number to control pulling strength
+    void FixedUpdate () {
+        if (inMagneticInfluence && OtherBody) {
+            Vector2 direction = Vector3.Normalize (OtherBody.position - transform.position);
+            float distance = Mathf.Min (Mathf.Abs (OtherBody.position.x - transform.position.x), CurrentFieldRadius);
+            float MagStr = (CurrentFieldRadius / distance) * 10; // maginc number to control pulling strength
             direction.y = 0;
-            Parentrigidbody.AddForce(direction * (MagStr * PullDirection), ForceMode2D.Force);
+            Parentrigidbody.AddForce (direction * (MagStr * PullDirection), ForceMode2D.Force);
         }
     }
-	
 
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if(other.gameObject.tag == "attractor")
-        {
+    void OnTriggerEnter2D (Collider2D other) {
+        if (other.gameObject.tag == "attractor") {
             OtherBody = other.transform;
             inMagneticInfluence = true;
             PullDirection = 1;
-        }
-        else if(other.gameObject.tag == "repulsor")
-        {
+        } else if (other.gameObject.tag == "repulsor") {
             OtherBody = other.transform;
             inMagneticInfluence = true;
             PullDirection = -1;
         }
     }
 
-    void OnTriggerExit2D(Collider2D other)
-    {
+    public void modifyFieldRadius (int decider) {
+        if (decider > 0) {
+            CurrentFieldRadius = InitialFieldRadius * this.transform.localScale.x;
+        } else {
+            CurrentFieldRadius = InitialFieldRadius;
+        }
+    }
+
+    void OnTriggerExit2D (Collider2D other) {
         OtherBody = null;
-        inMagneticInfluence = false; 
+        inMagneticInfluence = false;
     }
 }
