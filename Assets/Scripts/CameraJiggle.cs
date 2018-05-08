@@ -21,7 +21,9 @@ public class CameraJiggle : MonoBehaviour {
     }
 
     IEnumerator jiggleCam2 (float duration) {
+        Vector3 originalPosition = transform.position;
         yield return new WaitForSeconds (duration);
         jiggleAmt = 0;
+        transform.position = originalPosition;
     }
 }

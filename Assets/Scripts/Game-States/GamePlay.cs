@@ -92,7 +92,7 @@ public class GamePlay : GameRunning {
     void SpawnPickups () {
         var spawner = spawners[UnityEngine.Random.Range (0, spawners.Length)];
         int r = UnityEngine.Random.Range (0, 11);
-        int sp = 0; //r < 6 ? 0 : (r < 8 ? 1 : 2);
+        int sp = 1; //r < 6 ? 0 : (r < 8 ? 1 : 2);
         spawner.Spawn (ParentMachine.Component.powerups[sp]);
     }
     public override void TriggerExit2D (Collider2D other) {

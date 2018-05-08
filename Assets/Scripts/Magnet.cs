@@ -98,14 +98,15 @@ public class Magnet : MonoBehaviour {
 
     IEnumerator Invincibility () {
         float originalspeed = GamePlay.gamespeed;
-        GamePlay.gamespeed = 0.5f;
-        AudioManager.play (audio, timeSlow);
+        // GamePlay.gamespeed = 0.5f;
+        // AudioManager.play (audio, timeSlow);
         ControlsDisabled = true;
-        rigidbody.velocity = Vector2.zero;
-        float time1 = Time.realtimeSinceStartup + 1.0f;
-        while (Time.realtimeSinceStartup < time1) {
-            yield return null;
-        }
+        // rigidbody.velocity = Vector2.zero;
+        // fieldEffect.fadeDuration = 0.1f;
+        // float time1 = Time.realtimeSinceStartup + 1.0f;
+        // while (Time.realtimeSinceStartup < time1) {
+        //     yield return null;
+        // }
         rigidbody.velocity = Vector2.zero;
         collider.enabled = false;
         magField.enabled = false;
@@ -179,7 +180,7 @@ public class Magnet : MonoBehaviour {
 
     void playDownScaleParticleSystem (float localScale) {
         short particleCount = (short) (Mathf.Round ((localScale - 0.9f) * 50));
-        Debug.Log (localScale);
+        Debug.Log (particleCount);
         ParticleSystem.Burst[] bursts = new ParticleSystem.Burst[1];
         bursts[0] = new ParticleSystem.Burst (0.0f, particleCount, particleCount);
         downScaleParticleEffect.emission.SetBursts (bursts);
