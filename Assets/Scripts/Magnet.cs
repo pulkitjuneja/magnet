@@ -180,7 +180,7 @@ public class Magnet : MonoBehaviour {
 
     void playDownScaleParticleSystem (float localScale) {
         short particleCount = (short) (Mathf.Round ((localScale - 0.9f) * 50));
-        Debug.Log (particleCount);
+
         ParticleSystem.Burst[] bursts = new ParticleSystem.Burst[1];
         bursts[0] = new ParticleSystem.Burst (0.0f, particleCount, particleCount);
         downScaleParticleEffect.emission.SetBursts (bursts);
