@@ -9,8 +9,8 @@ public class GameOverState : State<MainStateMachine> {
     Text FinalScore;
     public GameOverState (MainStateMachine m, int Score) : base (m) {
         string NewBest = "";
-        EndMenu = GameObject.Find ("Canvas").transform.FindChild ("End Menu").gameObject;
-        FinalScore = EndMenu.transform.FindChild ("FinalScore").GetComponent<Text> ();
+        EndMenu = GameObject.Find ("Canvas").transform.Find ("End Menu").gameObject;
+        FinalScore = EndMenu.transform.Find ("FinalScore").GetComponent<Text> ();
         EndMenu.SetActive (true);
         if (Score > PlayerPrefs.GetInt (FSMgenerator.SCORE_KEY)) {
             PlayerPrefs.SetInt (FSMgenerator.SCORE_KEY, Score);

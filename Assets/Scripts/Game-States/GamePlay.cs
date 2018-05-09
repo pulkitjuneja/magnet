@@ -20,7 +20,7 @@ public class GamePlay : GameRunning {
         Camera camera = Camera.main;
         spawners = ParentMachine.Component.spawners;
         var InGameUiObject = GameObject.Find ("InGameUi");
-        PauseMenu = GameObject.Find ("Canvas").transform.FindChild ("PauseMenu").gameObject;
+        PauseMenu = GameObject.Find ("Canvas").transform.Find ("PauseMenu").gameObject;
         Distance = InGameUiObject.GetComponentInChildren<Text> ();
         InGameUiAnimator = InGameUiObject.GetComponent<Animator> ();
         InGameUiAnimator.SetBool ("visible", true);
@@ -92,7 +92,8 @@ public class GamePlay : GameRunning {
     void SpawnPickups () {
         var spawner = spawners[UnityEngine.Random.Range (0, spawners.Length)];
         int r = UnityEngine.Random.Range (0, 11);
-        int sp = 1; //r < 6 ? 0 : (r < 8 ? 1 : 2);
+        Debug.Log (r);
+        int sp = r < 6 ? 0 : (r < 8 ? 1 : 2);
         spawner.Spawn (ParentMachine.Component.powerups[sp]);
     }
     public override void TriggerExit2D (Collider2D other) {
