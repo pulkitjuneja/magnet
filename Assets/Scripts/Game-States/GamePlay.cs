@@ -15,7 +15,7 @@ public class GamePlay : GameRunning {
     bool Paused;
     Animator InGameUiAnimator;
     GameObject PauseMenu;
-    public float SpawnMin = 4.0f, SpawnMax = 8.0f, spTime;
+    public float SpawnMin = 4.0f, SpawnMax = 10.0f, spTime;
     public GamePlay (MainStateMachine m) : base (m) {
         Camera camera = Camera.main;
         spawners = ParentMachine.Component.spawners;
@@ -82,6 +82,7 @@ public class GamePlay : GameRunning {
         }
         removesections ();
         ClearPowerups ();
+        ResetGame ();
     }
     void ClearPowerups () {
         Pickup[] ps = GameObject.FindObjectsOfType<Pickup> ();
@@ -122,6 +123,10 @@ public class GamePlay : GameRunning {
     void GameOver () {
         Debug.Log ("gameOver");
         ParentMachine.SetState (typeof (GameOverState), false, new object[] { ParentMachine, Score });
+    }
+
+    void ResetGame () {
+        GamePlay.gamespeed = 5;
     }
 
 }

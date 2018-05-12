@@ -29,15 +29,9 @@ public class GameOverState : State<MainStateMachine> {
             yield return null;
         }
         ToggleEndMenu (false);
-        ResetGame ();
     }
     void ToggleEndMenu (bool visible) {
         EndMenu.SetActive (visible);
-    }
-
-    void ResetGame () {
-
-        GamePlay.gamespeed = 5;
     }
 
 }

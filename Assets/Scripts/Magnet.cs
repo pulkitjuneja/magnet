@@ -172,7 +172,7 @@ public class Magnet : MonoBehaviour {
         }
         yield return new WaitForSeconds (1);
         collider.radius = initialColliderRadius * transform.GetChild (1).localScale.x;
-        fieldEffect.initialLocalScale = Mathf.Clamp (initialFieldStartScale - 0.7f, 1, 500);
+        fieldEffect.initialLocalScale = Mathf.Clamp (initialFieldStartScale - 0.7f, 0.8f, 500);
         fieldEffect.finalLocalScale = Mathf.Clamp (initialFieldEndScale - 0.7f, 1, 500);
         rigidbody.mass = Mathf.Clamp (rigidbody.mass - 0.5f, 1, 500);
         fieldController.modifyFieldRadius (1);
