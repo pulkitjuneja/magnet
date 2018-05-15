@@ -30,7 +30,7 @@ public class Pickup : MonoBehaviour {
              }
              anim.SetBool("Fade", true);
              if (audio.clip != null)
-                 audio.Play();
+                  AudioManager.play(audio, audio.clip);
         }
     }
 

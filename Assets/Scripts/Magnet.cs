@@ -5,14 +5,13 @@ using UnityEngine;
 public class Magnet : MonoBehaviour {
 
     public Rigidbody2D rigidbody;
-    public AudioClip absorb;
     bool Toclamp = false;
-    public AudioClip hit, boostSound, timeSlow;
+    public AudioClip hit, boostSound, timeSlow, absorb;
     CircleCollider2D collider;
     CircleCollider2D magField;
     SpriteRenderer boost;
     public bool ControlsDisabled = false;
-    AudioSource audio;
+    AudioSource audioSource;
     public event Action GameOverEvent;
     public harmonicMotion fieldEffect;
     Animator animator;
@@ -25,7 +24,7 @@ public class Magnet : MonoBehaviour {
 
     void Start () {
         animator = GetComponent<Animator> ();
-        audio = GetComponent<AudioSource> ();
+        audioSource = GetComponent<AudioSource> ();
         fieldEffect = GetComponentInChildren<harmonicMotion> ();
         collider = GetComponent<CircleCollider2D> ();
         TouchSeperator = Screen.width / 2;
@@ -80,7 +79,7 @@ public class Magnet : MonoBehaviour {
         if (other.gameObject.tag == "absorbable") {
             Destroy (other.gameObject);
             upscale ();
-            AudioManager.play (audio, absorb);
+            AudioManager.play (audioSource, absorb);
         } else if (other.gameObject.tag == "Respawn") {
             Debug.Log ("error");
         }
@@ -89,7 +88,7 @@ public class Magnet : MonoBehaviour {
         rigidbody.velocity = Vector2.zero;
         rigidbody.isKinematic = true;
         transform.parent = other.gameObject.transform;
-        AudioManager.play (audio, hit);
+        AudioManager.play (audioSource, hit);
     }
 
     public void beInvincible () {
@@ -113,7 +112,6 @@ public class Magnet : MonoBehaviour {
         Camera.main.GetComponent<CameraJiggle> ().jiggleCam (0.05f, 1f);
         boost.enabled = true;
         GamePlay.gamespeed = 23.0f;
-        AudioManager.play (audio, boostSound);
         float time = Time.realtimeSinceStartup + 3.0f;
         while (Time.realtimeSinceStartup < time) {
             yield return null;
