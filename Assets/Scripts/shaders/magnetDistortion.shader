@@ -1,4 +1,6 @@
-﻿Shader "magnetDistortion"
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "magnetDistortion"
 {
 	Properties{
 		//_DisplaceTex("displacement texture",2D) = "white"{}
@@ -25,7 +27,7 @@
 		v2f o;
 		o.disuv = v.texcoord;
 		o.pos2 = v.vertex;
-		o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+		o.pos = UnityObjectToClipPos(v.vertex);
 		return o;
 	}
 

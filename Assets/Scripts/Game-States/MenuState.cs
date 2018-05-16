@@ -5,14 +5,21 @@ using UnityEngine.UI;
 
 public class MenuState : GameRunning {
 
-    Animator StartScreenAnimator;
+    Animator startScreenAnimator;
     GameObject HowToScreen;
+    bool isFirstTime = false;
+    GameObject instructionsExitToMenu, instructionsNewGame;
+    MainStateMachine stateMachine;
     public MenuState (MainStateMachine g) : base (g) {
-        StartScreenAnimator = GameObject.Find ("Start Menu").GetComponent<Animator> ();
+        startScreenAnimator = GameObject.Find ("Start Menu").GetComponent<Animator> ();
+        stateMachine = g ;
         // TODO : use animator instead of enabling the screen by default by always
         HowToScreen = GameObject.Find ("HowToMenu");
+        instructionsExitToMenu = HowToScreen.transform.Find("ExitHowToMenu").gameObject;
+        instructionsNewGame = HowToScreen.transform.Find("NewGame").gameObject;
         HowToScreen.SetActive (false);
         if (!PlayerPrefs.HasKey (FSMgenerator.SCORE_KEY)) {
+            isFirstTime = true;
             PlayerPrefs.SetInt (FSMgenerator.SCORE_KEY, 0);
             PlayerPrefs.Save ();
         }
@@ -30,6 +37,10 @@ public class MenuState : GameRunning {
     public override IEnumerator run () {
         var magnets = GameObject.FindGameObjectsWithTag ("Player");
         GameObject Magnet;
+        if(isFirstTime && instructionsNewGame.activeSelf) {
+            instructionsNewGame.SetActive(false);
+            instructionsExitToMenu.SetActive(true);
+        }
         if (magnets.Length > 0) {
             Magnet = magnets[0];
             Magnet.GetComponent<Magnet> ().reset ();
@@ -38,24 +49,36 @@ public class MenuState : GameRunning {
         }
         Magnet.GetComponent<Magnet> ().ControlsDisabled = true;
         spawnStart (7);
-        StartScreenAnimator.SetBool ("visible", true);
+        startScreenAnimator.SetBool ("visible", true);
         while (ParentMachine.Current.GetType () == GetType ()) {
             AdvanceLevelPosition ();
             bgController.update (gamespeed);
             yield return null;
         }
         removesections ();
-        StartScreenAnimator.SetBool ("visible", false);
+        HowToScreen.SetActive(false);
+        startScreenAnimator.SetBool ("visible", false);
+    }
+
+    public void navigateToPlay () {
+        if(isFirstTime) {
+            HowToScreen.SetActive(true);
+            instructionsExitToMenu.SetActive(false);
+            instructionsNewGame.SetActive(true);
+            isFirstTime = false;
+        } else {
+            stateMachine.SetState (typeof (GamePlay), true, new object[] { MainStateMachine.instance });
+        }
     }
 
     public void showHowTo () {
-        StartScreenAnimator.SetBool ("visible", false);
+        startScreenAnimator.SetBool ("visible", false);
         HowToScreen.SetActive (true);
     }
 
     public void hideHowTo () {
         HowToScreen.SetActive (false);
-        StartScreenAnimator.SetBool ("visible", true);
+        startScreenAnimator.SetBool ("visible", true);
     }
 
     public override void SpawnLevel () {

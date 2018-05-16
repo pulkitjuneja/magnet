@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,9 +7,12 @@ class UiManager : MonoBehaviour {
     bool isSfxToggled = true;
     bool isMusicToggled = true;
 
+    List<GameObject> musicButtons, SfxButtons;
+
     public Sprite sfxOn, sfxOff, musicOn, musicOff;
     void Start () {
-
+        musicButtons = new List<GameObject>();
+        SfxButtons = new List<GameObject>();
         Button[] buttons = GetComponentsInChildren<Button> (true);
         foreach (Button butt in buttons) {
             switch (butt.gameObject.name) {
@@ -29,9 +33,11 @@ class UiManager : MonoBehaviour {
                     break;
                 case "toggleMusic":
                     butt.onClick.AddListener (() => toggleMusic (butt));
+                    musicButtons.Add(butt.gameObject);
                     break;
                 case "toggleSfx":
                     butt.onClick.AddListener (() => toggleSfx (butt));
+                    SfxButtons.Add(butt.gameObject);
                     break;
                 case "ExitHowToMenu":
                     butt.onClick.AddListener (() => exitHowToMenu ());
@@ -41,11 +47,16 @@ class UiManager : MonoBehaviour {
                     break;
             }
         }
+        Debug.Log(musicButtons.Count);
+        Debug.Log(SfxButtons.Count);
     }
 
     public void NewGameListener () {
-        bool preserve = MainStateMachine.instance.Current.GetType () == typeof (MenuState) ? true : false; // need to preserve only the main menu state
-        MainStateMachine.instance.SetState (typeof (GamePlay), preserve, new object[] { MainStateMachine.instance });
+        if(MainStateMachine.instance.Current.GetType () == typeof (MenuState) ) {
+            (MainStateMachine.instance.Current as MenuState).navigateToPlay();
+        } else {
+        MainStateMachine.instance.SetState (typeof (GamePlay), false, new object[] { MainStateMachine.instance });
+        }
     }
 
     void ExitListener () {
@@ -68,11 +79,13 @@ class UiManager : MonoBehaviour {
     void toggleMusic (Button butt) {
         isMusicToggled = !isMusicToggled;
         AudioManager.toggleMusic (isMusicToggled);
-        if (isMusicToggled) {
-            butt.gameObject.GetComponent<Image> ().overrideSprite = musicOn;
+        musicButtons.ForEach((GameObject gameObject)=>{
+            if (isMusicToggled) {
+            gameObject.GetComponent<Image> ().overrideSprite = musicOn;
         } else {
-            butt.gameObject.GetComponent<Image> ().overrideSprite = musicOff;
+            gameObject.GetComponent<Image> ().overrideSprite = musicOff;
         }
+        });
     }
 
     void exitHowToMenu () {
@@ -86,11 +99,13 @@ class UiManager : MonoBehaviour {
     void toggleSfx (Button butt) {
         isSfxToggled = !isSfxToggled;
         AudioManager.toggleSFX (isSfxToggled);
-        if (isSfxToggled) {
-            butt.gameObject.GetComponent<Image> ().overrideSprite = sfxOn;
-        } else {
-            butt.gameObject.GetComponent<Image> ().overrideSprite = sfxOff;
-        }
+         SfxButtons.ForEach((GameObject gameObject)=>{
+            if (isSfxToggled) {
+                gameObject.GetComponent<Image> ().overrideSprite = sfxOn;
+            } else {
+                gameObject.GetComponent<Image> ().overrideSprite = sfxOff;
+            }
+        });
     }
 
 }
