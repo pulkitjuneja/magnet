@@ -185,7 +185,7 @@ public class Magnet : MonoBehaviour {
         downScaleParticleEffect.Play ();
     }
 
-    public void reset () {
+    public void reset (Camera camera) {
         foreach (Transform transform in this.transform) {
             transform.localScale = new Vector3 (1, 1, 1);
         }
@@ -193,7 +193,9 @@ public class Magnet : MonoBehaviour {
         fieldEffect.initialLocalScale = 0.8f;
         fieldEffect.finalLocalScale = 1.0f;
         rigidbody.mass = 1; //TODO get values from pre stored variables for all these
+        rigidbody.velocity = Vector2.zero ;
         fieldController.modifyFieldRadius (0);
+        transform.position = new Vector3 (camera.transform.position.x, camera.transform.position.y + camera.orthographicSize / 2);
     }
 
 }

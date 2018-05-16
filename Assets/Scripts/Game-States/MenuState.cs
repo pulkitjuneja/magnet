@@ -43,7 +43,7 @@ public class MenuState : GameRunning {
         }
         if (magnets.Length > 0) {
             Magnet = magnets[0];
-            Magnet.GetComponent<Magnet> ().reset ();
+            Magnet.GetComponent<Magnet> ().reset (camera);
         } else {
             Magnet = GameObject.Instantiate (ParentMachine.Component.MagnetPrefab, new Vector3 (camera.transform.position.x, camera.transform.position.y + camera.orthographicSize / 2), Quaternion.identity) as GameObject;
         }
