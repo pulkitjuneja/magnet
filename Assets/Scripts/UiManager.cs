@@ -52,8 +52,11 @@ class UiManager : MonoBehaviour {
     }
 
     public void NewGameListener () {
-        bool preserve = MainStateMachine.instance.Current.GetType () == typeof (MenuState) ? true : false; // need to preserve only the main menu state
-        MainStateMachine.instance.SetState (typeof (GamePlay), preserve, new object[] { MainStateMachine.instance });
+        if(MainStateMachine.instance.Current.GetType () == typeof (MenuState) ) {
+            (MainStateMachine.instance.Current as MenuState).navigateToPlay();
+        } else {
+        MainStateMachine.instance.SetState (typeof (GamePlay), false, new object[] { MainStateMachine.instance });
+        }
     }
 
     void ExitListener () {
