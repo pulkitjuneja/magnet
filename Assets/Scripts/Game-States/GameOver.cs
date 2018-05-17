@@ -5,33 +5,40 @@ using UnityEngine.UI;
 
 public class GameOverState : State<MainStateMachine> {
 
-    GameObject EndMenu;
-    Text FinalScore;
+    Animator EndMenu;
+    Text FinalScore, PersonalBest, PersonalBestText;
     public GameOverState (MainStateMachine m, int Score) : base (m) {
-        string NewBest = "";
-        EndMenu = GameObject.Find ("Canvas").transform.Find ("End Menu").gameObject;
+        EndMenu = GameObject.Find ("Canvas").transform.Find ("End Menu").gameObject.GetComponent<Animator>();
         FinalScore = EndMenu.transform.Find ("FinalScore").GetComponent<Text> ();
-        EndMenu.SetActive (true);
+        PersonalBest = EndMenu.transform.Find ("PersonalBest").GetComponent<Text> ();
+        PersonalBestText = EndMenu.transform.Find ("PersonalBestText").GetComponent<Text> ();
+        EndMenu.SetBool("visible",true);
         if (Score > PlayerPrefs.GetInt (FSMgenerator.SCORE_KEY)) {
             PlayerPrefs.SetInt (FSMgenerator.SCORE_KEY, Score);
             PlayerPrefs.Save ();
-            NewBest = "New Personal Best";
+            prepareScreenForNewPersonalBest();
         } else {
             int personalBest = PlayerPrefs.GetInt (FSMgenerator.SCORE_KEY);
-            NewBest = "Personal Best " + personalBest.ToString ();
+            prepareScreenForNormalScore(personalBest);
         }
+        FinalScore.text = Score.ToString () + "m";
+    }
 
-        FinalScore.text = "You Fell\r\n" + Score.ToString () + "m\r\n" + NewBest;
+    void prepareScreenForNewPersonalBest() {
+        PersonalBestText.text = "New Personal Best";
+        PersonalBest.text = "";
+    }
+
+    void prepareScreenForNormalScore (int personalBestScore) {
+        PersonalBestText.text = "Personal Best";
+        PersonalBest.text = personalBestScore.ToString() + "m";
     }
 
     public override IEnumerator run () {
         while (ParentMachine.Current.GetType () == GetType ()) {
             yield return null;
         }
-        ToggleEndMenu (false);
-    }
-    void ToggleEndMenu (bool visible) {
-        EndMenu.SetActive (visible);
+        EndMenu.SetBool("visible",false);
     }
 
 }

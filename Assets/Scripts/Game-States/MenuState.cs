@@ -40,6 +40,7 @@ public class MenuState : GameRunning {
         if(isFirstTime && instructionsNewGame.activeSelf) {
             instructionsNewGame.SetActive(false);
             instructionsExitToMenu.SetActive(true);
+            isFirstTime = false;
         }
         if (magnets.Length > 0) {
             Magnet = magnets[0];
@@ -65,7 +66,6 @@ public class MenuState : GameRunning {
             HowToScreen.SetActive(true);
             instructionsExitToMenu.SetActive(false);
             instructionsNewGame.SetActive(true);
-            isFirstTime = false;
         } else {
             stateMachine.SetState (typeof (GamePlay), true, new object[] { MainStateMachine.instance });
         }

@@ -52,6 +52,6 @@ public class Pickup : MonoBehaviour {
 
     void ReduceTime()
     {
-        GamePlay.gamespeed = Mathf.Clamp(GamePlay.gamespeed-5.0f, 5, 18.0f);
+        GamePlay.gamespeed = Mathf.Clamp(GamePlay.gamespeed-10.0f, 5, 18.0f);
     }
 }

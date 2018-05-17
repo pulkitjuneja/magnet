@@ -1,21 +1,23 @@
 fileFormatVersion: 2
-guid: 5940cf9576c896243854b1214a85cf2b
-timeCreated: 1503180562
+guid: 4970943f7102c40d48d8357d35a683f1
+timeCreated: 1526587253
 licenseType: Free
 TrueTypeFontImporter:
+  externalObjects: {}
   serializedVersion: 4
   fontSize: 16
   forceTextureCase: -2
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: NeonTech
+  fontName: Retro serif
   fontNames:
-  - NeonTech
+  - Retro serif
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
