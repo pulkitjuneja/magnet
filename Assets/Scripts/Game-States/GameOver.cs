@@ -12,7 +12,6 @@ public class GameOverState : State<MainStateMachine> {
         FinalScore = EndMenu.transform.Find ("FinalScore").GetComponent<Text> ();
         PersonalBest = EndMenu.transform.Find ("PersonalBest").GetComponent<Text> ();
         PersonalBestText = EndMenu.transform.Find ("PersonalBestText").GetComponent<Text> ();
-        EndMenu.SetBool("visible",true);
         if (Score > PlayerPrefs.GetInt (FSMgenerator.SCORE_KEY)) {
             PlayerPrefs.SetInt (FSMgenerator.SCORE_KEY, Score);
             PlayerPrefs.Save ();
@@ -35,6 +34,7 @@ public class GameOverState : State<MainStateMachine> {
     }
 
     public override IEnumerator run () {
+        EndMenu.SetBool("visible",true);
         while (ParentMachine.Current.GetType () == GetType ()) {
             yield return null;
         }

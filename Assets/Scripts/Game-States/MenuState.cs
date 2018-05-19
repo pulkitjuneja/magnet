@@ -37,11 +37,6 @@ public class MenuState : GameRunning {
     public override IEnumerator run () {
         var magnets = GameObject.FindGameObjectsWithTag ("Player");
         GameObject Magnet;
-        if(isFirstTime && instructionsNewGame.activeSelf) {
-            instructionsNewGame.SetActive(false);
-            instructionsExitToMenu.SetActive(true);
-            isFirstTime = false;
-        }
         if (magnets.Length > 0) {
             Magnet = magnets[0];
             Magnet.GetComponent<Magnet> ().reset (camera);
@@ -66,8 +61,11 @@ public class MenuState : GameRunning {
             HowToScreen.SetActive(true);
             instructionsExitToMenu.SetActive(false);
             instructionsNewGame.SetActive(true);
+            isFirstTime = false;
         } else {
             stateMachine.SetState (typeof (GamePlay), true, new object[] { MainStateMachine.instance });
+            instructionsNewGame.SetActive(false);
+            instructionsExitToMenu.SetActive(true);
         }
     }
 

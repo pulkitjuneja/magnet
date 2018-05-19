@@ -3,12 +3,11 @@ using System.Collections;
 
 public class Pickup : MonoBehaviour {
 
-    string tag;
+    string name;
     Animator anim;
     AudioSource audio;
 	void Start ()
     {
-        tag = gameObject.tag;
         anim = GetComponent<Animator>();
         audio = GetComponent<AudioSource>();
 	}
@@ -22,7 +21,7 @@ public class Pickup : MonoBehaviour {
     {
         if(other.gameObject.tag == "Player")
         {
-             switch(tag)
+             switch(gameObject.tag)
              {
                  case "invincibility" : other.gameObject.GetComponent<Magnet>().beInvincible(); break;
                  case "DownSize" : DownSize(other.gameObject); break;
@@ -38,8 +37,15 @@ public class Pickup : MonoBehaviour {
     {
         if (other.gameObject.tag == "Respawn")
         {
-            Destroy(this.gameObject);
+            StartCoroutine(DestroyAfterAudio());
         }
+    }
+
+    IEnumerator DestroyAfterAudio () {
+        while(audio.isPlaying) {
+            yield return null;
+        }
+        Destroy(this.gameObject);
     }
 
     void DownSize(GameObject player)
@@ -51,7 +57,7 @@ public class Pickup : MonoBehaviour {
     }
 
     void ReduceTime()
-    {
-        GamePlay.gamespeed = Mathf.Clamp(GamePlay.gamespeed-10.0f, 5, 18.0f);
+    {   
+        GamePlay.gamespeed = Mathf.Clamp(GamePlay.gamespeed-7.0f, 5, 18.0f);
     }
 }

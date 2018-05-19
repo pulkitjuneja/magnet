@@ -163,6 +163,7 @@ public class Magnet : MonoBehaviour {
         var initialFieldStartScale = fieldEffect.initialLocalScale;
         var initialFieldEndScale = fieldEffect.finalLocalScale;
         fieldEffect.initialLocalScale = fieldEffect.finalLocalScale = 0.01f;
+        yield return new WaitForSeconds(0.25f);
         playDownScaleParticleSystem (transform.GetChild (1).localScale.x);
         foreach (Transform transform in this.transform) {
             var targetScale = Mathf.Clamp (transform.localScale.x - 0.7f, 1, 500);

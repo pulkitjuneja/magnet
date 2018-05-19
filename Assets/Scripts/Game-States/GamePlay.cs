@@ -15,7 +15,7 @@ public class GamePlay : GameRunning {
     bool Paused;
     Animator InGameUiAnimator;
     GameObject PauseMenu;
-    public float SpawnMin = 4.0f, SpawnMax = 10.0f, spTime;
+    public float SpawnMin = 8.0f, SpawnMax = 15.0f, spTime;
     public GamePlay (MainStateMachine m) : base (m) {
         Camera camera = Camera.main;
         spawners = ParentMachine.Component.spawners;
@@ -61,7 +61,7 @@ public class GamePlay : GameRunning {
             ElapsedTime += Time.unscaledDeltaTime;
             SpawnTimer += Time.unscaledDeltaTime;
 
-            if (ElapsedTime >= 3.0f && gamespeed < 12.0f) {
+            if (ElapsedTime >= 3.0f && gamespeed < 16.0f) {
                 gamespeed += 0.5f;
                 ElapsedTime = 0;
             }
@@ -71,18 +71,20 @@ public class GamePlay : GameRunning {
                 SpawnTimer = 0;
                 spTime = UnityEngine.Random.Range (SpawnMin, SpawnMax);
             }
-
             yield return null;
         }
         InGameUiAnimator.SetBool ("visible", false);
         PauseMenu.SetActive (false);
+        ClearPowerups ();
+        removesections ();
         if (Magnet != null) {
             Magnet.GetComponent<Magnet> ().GameOverEvent -= GameOver;
             // GameObject.Destroy(Magnet); //sucky fix have to improve
         }
-        removesections ();
-        ClearPowerups ();
         ResetGame ();
+        while(InGameUiAnimator.IsInTransition(0)) {
+            yield return null;
+        }
     }
     void ClearPowerups () {
         Pickup[] ps = GameObject.FindObjectsOfType<Pickup> ();
@@ -93,7 +95,6 @@ public class GamePlay : GameRunning {
     void SpawnPickups () {
         var spawner = spawners[UnityEngine.Random.Range (0, spawners.Length)];
         int r = UnityEngine.Random.Range (0, 11);
-        Debug.Log (r);
         int sp = r < 6 ? 0 : (r < 8 ? 1 : 2);
         spawner.Spawn (ParentMachine.Component.powerups[sp]);
     }
@@ -101,10 +102,13 @@ public class GamePlay : GameRunning {
 
         if (other.gameObject.tag == "level") {
             LevelPiece op = firstPiece;
-            GameObject.Destroy (op.piece);
-            firstPiece = op.next;
-            op.next = null;
-            SpawnLevel ();
+            if(op != null) {
+                GameObject.Destroy (op.piece);
+                //Debug.Log(op);
+                firstPiece = op.next;
+                op.next = null;
+                SpawnLevel ();
+            }
             Score += 1;
             Distance.text = Score.ToString ();
         }
@@ -121,7 +125,6 @@ public class GamePlay : GameRunning {
         Addlevel (p);
     }
     void GameOver () {
-        Debug.Log ("gameOver");
         ParentMachine.SetState (typeof (GameOverState), false, new object[] { ParentMachine, Score });
     }
 
