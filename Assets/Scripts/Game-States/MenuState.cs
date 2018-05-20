@@ -12,11 +12,11 @@ public class MenuState : GameRunning {
     MainStateMachine stateMachine;
     public MenuState (MainStateMachine g) : base (g) {
         startScreenAnimator = GameObject.Find ("Start Menu").GetComponent<Animator> ();
-        stateMachine = g ;
+        stateMachine = g;
         // TODO : use animator instead of enabling the screen by default by always
         HowToScreen = GameObject.Find ("HowToMenu");
-        instructionsExitToMenu = HowToScreen.transform.Find("ExitHowToMenu").gameObject;
-        instructionsNewGame = HowToScreen.transform.Find("NewGame").gameObject;
+        instructionsExitToMenu = HowToScreen.transform.Find ("ExitHowToMenu").gameObject;
+        instructionsNewGame = HowToScreen.transform.Find ("NewGame").gameObject;
         HowToScreen.SetActive (false);
         if (!PlayerPrefs.HasKey (FSMgenerator.SCORE_KEY)) {
             isFirstTime = true;
@@ -27,10 +27,12 @@ public class MenuState : GameRunning {
     public override void TriggerExit2D (Collider2D other) {
         if (other.gameObject.tag == "level") {
             LevelPiece op = firstPiece;
-            GameObject.Destroy (op.piece);
-            firstPiece = op.next;
-            op.next = null;
-            SpawnLevel ();
+            if (op != null) {
+                GameObject.Destroy (op.piece);
+                firstPiece = op.next;
+                op.next = null;
+                SpawnLevel ();
+            }
         }
     }
 
@@ -52,20 +54,20 @@ public class MenuState : GameRunning {
             yield return null;
         }
         removesections ();
-        HowToScreen.SetActive(false);
+        HowToScreen.SetActive (false);
         startScreenAnimator.SetBool ("visible", false);
     }
 
     public void navigateToPlay () {
-        if(isFirstTime) {
-            HowToScreen.SetActive(true);
-            instructionsExitToMenu.SetActive(false);
-            instructionsNewGame.SetActive(true);
+        if (isFirstTime) {
+            HowToScreen.SetActive (true);
+            instructionsExitToMenu.SetActive (false);
+            instructionsNewGame.SetActive (true);
             isFirstTime = false;
         } else {
             stateMachine.SetState (typeof (GamePlay), true, new object[] { MainStateMachine.instance });
-            instructionsNewGame.SetActive(false);
-            instructionsExitToMenu.SetActive(true);
+            instructionsNewGame.SetActive (false);
+            instructionsExitToMenu.SetActive (true);
         }
     }
 

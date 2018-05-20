@@ -15,7 +15,7 @@ public class GamePlay : GameRunning {
     bool Paused;
     Animator InGameUiAnimator;
     GameObject PauseMenu;
-    public float SpawnMin = 8.0f, SpawnMax = 15.0f, spTime;
+    public float SpawnMin = 10.0f, SpawnMax = 15.0f, spTime;
     public GamePlay (MainStateMachine m) : base (m) {
         Camera camera = Camera.main;
         spawners = ParentMachine.Component.spawners;
@@ -61,7 +61,7 @@ public class GamePlay : GameRunning {
             ElapsedTime += Time.unscaledDeltaTime;
             SpawnTimer += Time.unscaledDeltaTime;
 
-            if (ElapsedTime >= 3.0f && gamespeed < 16.0f) {
+            if (ElapsedTime >= 3.0f && gamespeed < 12.0f) {
                 gamespeed += 0.5f;
                 ElapsedTime = 0;
             }
@@ -82,7 +82,7 @@ public class GamePlay : GameRunning {
             // GameObject.Destroy(Magnet); //sucky fix have to improve
         }
         ResetGame ();
-        while(InGameUiAnimator.IsInTransition(0)) {
+        while (InGameUiAnimator.IsInTransition (0)) {
             yield return null;
         }
     }
@@ -102,7 +102,7 @@ public class GamePlay : GameRunning {
 
         if (other.gameObject.tag == "level") {
             LevelPiece op = firstPiece;
-            if(op != null) {
+            if (op != null) {
                 GameObject.Destroy (op.piece);
                 //Debug.Log(op);
                 firstPiece = op.next;
