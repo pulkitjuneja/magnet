@@ -27,12 +27,10 @@ public class MenuState : GameRunning {
     public override void TriggerExit2D (Collider2D other) {
         if (other.gameObject.tag == "level") {
             LevelPiece op = firstPiece;
-            if (op != null) {
-                GameObject.Destroy (op.piece);
-                firstPiece = op.next;
-                op.next = null;
-                SpawnLevel ();
-            }
+            GameObject.Destroy (op.piece);
+            firstPiece = op.next;
+            op.next = null;
+            SpawnLevel ();
         }
     }
 

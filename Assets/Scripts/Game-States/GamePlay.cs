@@ -24,7 +24,6 @@ public class GamePlay : GameRunning {
         Distance = InGameUiObject.GetComponentInChildren<Text> ();
         InGameUiAnimator = InGameUiObject.GetComponent<Animator> ();
         InGameUiAnimator.SetBool ("visible", true);
-        Score = 0;
         Distance.text = Score.ToString ();
         var magnets = GameObject.FindGameObjectsWithTag ("Player");
         if (magnets.Length > 0) {
@@ -102,13 +101,10 @@ public class GamePlay : GameRunning {
 
         if (other.gameObject.tag == "level") {
             LevelPiece op = firstPiece;
-            if (op != null) {
-                GameObject.Destroy (op.piece);
-                //Debug.Log(op);
-                firstPiece = op.next;
-                op.next = null;
-                SpawnLevel ();
-            }
+            GameObject.Destroy (op.piece);
+            firstPiece = op.next;
+            op.next = null;
+            SpawnLevel ();
             Score += 1;
             Distance.text = Score.ToString ();
         }

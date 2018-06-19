@@ -163,7 +163,7 @@ public class Magnet : MonoBehaviour {
         var initialFieldStartScale = fieldEffect.initialLocalScale;
         var initialFieldEndScale = fieldEffect.finalLocalScale;
         fieldEffect.initialLocalScale = fieldEffect.finalLocalScale = 0.01f;
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds (0.25f);
         playDownScaleParticleSystem (transform.GetChild (1).localScale.x);
         foreach (Transform transform in this.transform) {
             var targetScale = Mathf.Clamp (transform.localScale.x - 0.7f, 1, 500);
@@ -194,7 +194,7 @@ public class Magnet : MonoBehaviour {
         fieldEffect.initialLocalScale = 0.8f;
         fieldEffect.finalLocalScale = 1.0f;
         rigidbody.mass = 1; //TODO get values from pre stored variables for all these
-        rigidbody.velocity = Vector2.zero ;
+        rigidbody.velocity = Vector2.zero;
         fieldController.modifyFieldRadius (0);
         transform.position = new Vector3 (camera.transform.position.x, camera.transform.position.y + camera.orthographicSize / 2);
     }

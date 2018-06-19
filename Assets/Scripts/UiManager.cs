@@ -50,8 +50,6 @@ class UiManager : MonoBehaviour {
                     break;
             }
         }
-        Debug.Log (musicButtons.Count);
-        Debug.Log (SfxButtons.Count);
     }
 
     public void NewGameListener () {
