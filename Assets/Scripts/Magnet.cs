@@ -138,8 +138,9 @@ public class Magnet : MonoBehaviour {
     void OnDestroy () {
         GameObject[] magnets = GameObject.FindGameObjectsWithTag ("Player");
         if (magnets.Length == 0) {
-            if (GameOverEvent != null)
+            if (GameOverEvent != null) {
                 GameOverEvent ();
+            }
         }
     }
 

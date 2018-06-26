@@ -22,7 +22,6 @@ public class Spawner : MonoBehaviour {
     }
 
     public void Spawn (GameObject spawn) {
-        Debug.Log (spawn);
         if (collisionCount == 0) {
             var pos = this.transform.position;
             GameObject pickup = Instantiate (spawn, pos, Quaternion.identity) as GameObject;

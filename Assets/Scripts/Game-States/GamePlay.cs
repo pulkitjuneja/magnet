@@ -125,6 +125,7 @@ public class GamePlay : GameRunning {
     }
 
     void ResetGame () {
+        Score = 0;
         GamePlay.gamespeed = 5;
     }
 

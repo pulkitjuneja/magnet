@@ -38,6 +38,8 @@ public class StateMachine<T, Z, M> : State<T> where M : MonoBehaviour {
     }
 
     public void SetState (System.Type type, bool preserve, object[] args) {
+        if (type == Current.GetType ())
+            return;
         if (!States.ContainsKey (type)) {
             throw new Exception ("State not a part of state machine");
         }
