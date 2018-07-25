@@ -10,6 +10,8 @@ public class GameOverState : State<MainStateMachine> {
     PersonalBest,
     PersonalBestText;
 
+    Button ShareButton;
+
     int currentScore,
     personalBestScore;
     public GameOverState (MainStateMachine m, int Score) : base (m) {
@@ -17,17 +19,24 @@ public class GameOverState : State<MainStateMachine> {
         FinalScore = EndMenu.transform.Find ("FinalScore").GetComponent<Text> ();
         PersonalBest = EndMenu.transform.Find ("PersonalBest").GetComponent<Text> ();
         PersonalBestText = EndMenu.transform.Find ("PersonalBestText").GetComponent<Text> ();
+        ShareButton = EndMenu.transform.Find ("PersonalBest").GetComponent<Button> ();
+        Debug.Log (ShareButton);
         currentScore = Score;
     }
 
     void PrepareScreenForNewPersonalBest () {
         PersonalBestText.text = "New Personal Best";
-        PersonalBest.text = "";
+        PersonalBest.text = "Share";
+#if UNITY_ANDROID && !UNITY_EDITOR
+        ShareButton.onClick.AddListener (shareScoreAndroid);
+#endif
+        ShareButton.onClick.AddListener (() => Debug.Log ("Button Was clicked"));
     }
 
     void PrepareScreenForNormalScore (int personalBestScore) {
         PersonalBestText.text = "Personal Best";
         PersonalBest.text = personalBestScore.ToString () + "m";
+        ShareButton.onClick.RemoveAllListeners ();
     }
 
     void FetchScoreAndPrepareUI () {
@@ -50,6 +59,21 @@ public class GameOverState : State<MainStateMachine> {
             yield return null;
         }
         EndMenu.SetBool ("visible", false);
+    }
+
+    void shareScoreAndroid () {
+        string score = currentScore.ToString ();
+        AndroidJavaClass intentClass = new AndroidJavaClass ("android.content.Intent");
+        AndroidJavaObject intentObject = new AndroidJavaObject ("android.content.Intent");
+        intentObject.Call ("setAction", intentClass.GetStatic<String> ("ACTION_SEND"));
+        intentObject.Call<AndroidJavaObject> ("setType", "text/plain");
+        intentObject.Call ("putExtra", intentClass.GetStatic<String> ("EXTRA_SUBJECT"), "Magnetic");
+        intentObject.Call ("putExtra", intentClass.GetStatic<String> ("EXTRA_TITLE"), "New Best Score");
+        intentObject.Call ("putExtra", intentClass.GetStatic<String> ("EXTRA_TEXT"),
+            "I just fell " + score + " meters in magnetic, Think you can beat it ? https://play.google.com/apps/testing/com.pipedreams.Magnet");
+        AndroidJavaClass unity = new AndroidJavaClass ("com.unity3d.player.UnityPlayer");
+        AndroidJavaObject currentActivity = unity.GetStatic<AndroidJavaObject> ("currentActivity");
+        currentActivity.Call ("startActivity", intentObject);
     }
 
 }

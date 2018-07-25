@@ -48,6 +48,9 @@ class UiManager : MonoBehaviour {
                 case "ShowLeaderboard":
                     butt.onClick.AddListener (() => ShowLeaderboard ());
                     break;
+                case "RateUs":
+                    butt.onClick.AddListener (() => rateUs ());
+                    break;
             }
         }
     }
@@ -111,6 +114,12 @@ class UiManager : MonoBehaviour {
 
     void ShowLeaderboard () {
         GooglePlayServiceHelper.instance.ShowLeaderboard ();
+    }
+
+    void rateUs () {
+#if UNITY_ANDROID && !UNITY_EDITOR
+        Application.OpenURL ("market://details?id=com.pipedreams.magnetic");
+#endif        
     }
 
 }
