@@ -20,7 +20,6 @@ public class GameOverState : State<MainStateMachine> {
         PersonalBest = EndMenu.transform.Find ("PersonalBest").GetComponent<Text> ();
         PersonalBestText = EndMenu.transform.Find ("PersonalBestText").GetComponent<Text> ();
         ShareButton = EndMenu.transform.Find ("PersonalBest").GetComponent<Button> ();
-        Debug.Log (ShareButton);
         currentScore = Score;
     }
 
@@ -30,7 +29,6 @@ public class GameOverState : State<MainStateMachine> {
 #if UNITY_ANDROID && !UNITY_EDITOR
         ShareButton.onClick.AddListener (shareScoreAndroid);
 #endif
-        ShareButton.onClick.AddListener (() => Debug.Log ("Button Was clicked"));
     }
 
     void PrepareScreenForNormalScore (int personalBestScore) {

@@ -80,9 +80,7 @@ public class Magnet : MonoBehaviour {
             Destroy (other.gameObject);
             upscale ();
             AudioManager.play (audioSource, absorb);
-        } else if (other.gameObject.tag == "Respawn") {
-            Debug.Log ("error");
-        }
+        } else if (other.gameObject.tag == "Respawn") { }
     }
     void OnCollisionEnter2D (Collision2D other) {
         rigidbody.velocity = Vector2.zero;
