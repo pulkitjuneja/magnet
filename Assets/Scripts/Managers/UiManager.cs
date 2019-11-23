@@ -56,10 +56,10 @@ class UiManager : MonoBehaviour {
   }
 
   public void NewGameListener() {
-    if (MainStateMachine.instance.Current.GetType() == typeof(MenuState)) {
-      (MainStateMachine.instance.Current as MenuState).navigateToPlay();
+    if (GameStateMachine.instance.Current.GetType() == typeof(MenuState)) {
+      (GameStateMachine.instance.Current as MenuState).navigateToPlay();
     } else {
-      MainStateMachine.instance.SetState(typeof(GamePlay), false, new object[] { MainStateMachine.instance });
+      GameStateMachine.instance.SetState(typeof(GamePlay), false, new object[] { GameStateMachine.instance });
     }
   }
 
@@ -68,16 +68,16 @@ class UiManager : MonoBehaviour {
   }
 
   void PauseListener() {
-    (MainStateMachine.instance.Current as GamePlay).onPause();
+    (GameStateMachine.instance.Current as GamePlay).onPause();
   }
 
   void ResumeListener() {
-    (MainStateMachine.instance.Current as GamePlay).onResume();
+    (GameStateMachine.instance.Current as GamePlay).onResume();
   }
 
   void ExitToMenu() {
     Time.timeScale = 1.0f;
-    MainStateMachine.instance.SetState(typeof(MenuState), false, new object[] { MainStateMachine.instance });
+    GameStateMachine.instance.SetState(typeof(MenuState), false, new object[] { GameStateMachine.instance });
   }
 
   void toggleMusic(Button butt) {
@@ -93,11 +93,11 @@ class UiManager : MonoBehaviour {
   }
 
   void exitHowToMenu() {
-    (MainStateMachine.instance.Current as MenuState).hideHowTo();
+    (GameStateMachine.instance.Current as MenuState).hideHowTo();
   }
 
   void showHowToMenu() {
-    (MainStateMachine.instance.Current as MenuState).showHowTo();
+    (GameStateMachine.instance.Current as MenuState).showHowTo();
   }
 
   void toggleSfx(Button butt) {
