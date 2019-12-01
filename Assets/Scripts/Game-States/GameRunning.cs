@@ -12,13 +12,11 @@ public abstract class GameRunning : State<GameStateMachine> {
   int numBlocks = 5;
   Transform transform;
   public int StraightCount = 32;
-  public Vector3 levelGenPos;
   public GameRunning(GameStateMachine g) : base(g) {
     transform = ParentMachine.Component.transform;
     camera = Camera.main;
     levelHeight = 10;
     ParentMachine.Component.gameSpeed.value = 5;
-    levelGenPos = new Vector3(transform.position.x, (transform.position.y - (numBlocks - 0.5f) * levelHeight) + 0.15f, 0);
   }
 
   public void spawnStart(int StartSPawnLimit) {

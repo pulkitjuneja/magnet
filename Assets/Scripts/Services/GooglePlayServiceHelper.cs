@@ -42,9 +42,9 @@ public class GooglePlayServiceHelper {
         LeaderboardCollection.Public,
         LeaderboardTimeSpan.AllTime,
         (LeaderboardScoreData data) => {
-          int storedScore = PlayerPrefs.HasKey(GameStateManager.SCORE_KEY) ? PlayerPrefs.GetInt(GameStateManager.SCORE_KEY) : 0;
+          int storedScore = PlayerPrefs.HasKey(Constants.SCORE_KEY) ? PlayerPrefs.GetInt(Constants.SCORE_KEY) : 0;
           if (data.PlayerScore.value > storedScore) {
-            PlayerPrefs.SetInt(GameStateManager.SCORE_KEY, (int)data.PlayerScore.value);
+            PlayerPrefs.SetInt(Constants.SCORE_KEY, (int)data.PlayerScore.value);
           } else {
             AddScoreToLeaderboard(GPGSIds.leaderboard_magnetic, storedScore);
           }

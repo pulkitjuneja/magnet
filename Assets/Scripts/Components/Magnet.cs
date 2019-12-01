@@ -15,6 +15,7 @@ public class Magnet : MonoBehaviour {
   public AudioSource audioSource;
   public CircleCollider2D collider;
   public MagnetEnvInteraction fieldController;
+  public Signal stateChangedSignal;
   [HideInInspector] public float initialColliderRadius;
 
   float TouchSeperator;
@@ -25,10 +26,6 @@ public class Magnet : MonoBehaviour {
   }
 
   void Awake() {
-    GameObject[] magnets = GameObject.FindGameObjectsWithTag("Player");
-    if (magnets.Length > 1) {
-      Destroy(this.gameObject);
-    }
   }
 
   void FixedUpdate() {
@@ -69,13 +66,13 @@ public class Magnet : MonoBehaviour {
   void OnDestroy() {
     GameObject[] magnets = GameObject.FindGameObjectsWithTag("Player");
     if (magnets.Length == 0) {
-      if (GameOverEvent != null) { //TODO replace with signal
-        GameOverEvent();
-      }
+      SignalData stateChangeSignalData = new SignalData();
+      stateChangeSignalData.set("newStateType", GameStates.GameOverState);
+      stateChangedSignal.fire(stateChangeSignalData);
     }
   }
 
-  public void reset(Camera camera) {
+  public void reset(Vector3 resetPosition) {
     foreach (Transform transform in this.transform) {
       transform.localScale = new Vector3(1, 1, 1);
     }
@@ -85,7 +82,7 @@ public class Magnet : MonoBehaviour {
     rigidbody.mass = 1;
     rigidbody.velocity = Vector2.zero;
     fieldController.modifyFieldRadius(0);
-    transform.position = new Vector3(camera.transform.position.x, camera.transform.position.y + camera.orthographicSize / 2);
+    transform.position = resetPosition;
   }
 
 }

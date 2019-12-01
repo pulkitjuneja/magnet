@@ -27,7 +27,7 @@ public class GameOverState : State<GameStateMachine> {
     PersonalBestText.text = "New Personal Best";
     PersonalBest.text = "Share";
 #if UNITY_ANDROID && !UNITY_EDITOR
-        ShareButton.onClick.AddListener (shareScoreAndroid);
+        ShareButton.onClick.AddListener ();
 #endif
   }
 

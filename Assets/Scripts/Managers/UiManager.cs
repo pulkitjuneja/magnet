@@ -4,15 +4,25 @@ using UnityEngine;
 using UnityEngine.UI;
 
 class UiManager : MonoBehaviour {
+  public Sprite sfxOn, sfxOff, musicOn, musicOff;
+  public Signal stateChangeSignal;
+  public Signal screenChangeSignal;
+  public Signal TogglePauseSignal;
+
   bool isSfxToggled = true;
   bool isMusicToggled = true;
+  bool firstTimeStarted = false;
 
-  List<GameObject> musicButtons, SfxButtons;
+  List<GameObject> musicButtons;
+  List<GameObject> SfxButtons;
 
-  public Sprite sfxOn, sfxOff, musicOn, musicOff;
-  void Start() {
+
+  void Awake() {
     musicButtons = new List<GameObject>();
     SfxButtons = new List<GameObject>();
+    if (!PlayerPrefs.HasKey(Constants.SCORE_KEY)) {
+      firstTimeStarted = true;
+    }
     Button[] buttons = GetComponentsInChildren<Button>(true);
     foreach (Button butt in buttons) {
       switch (butt.gameObject.name) {
@@ -56,10 +66,16 @@ class UiManager : MonoBehaviour {
   }
 
   public void NewGameListener() {
-    if (GameStateMachine.instance.Current.GetType() == typeof(MenuState)) {
-      (GameStateMachine.instance.Current as MenuState).navigateToPlay();
+    if (firstTimeStarted) {
+      SignalData screenChangeData = new SignalData();
+      screenChangeData.set("screenName", ScreenManager.Screens.HowToScreen);
+      screenChangeData.set("firstTime", firstTimeStarted);
+      screenChangeSignal.fire(screenChangeData);
+      firstTimeStarted = false;
     } else {
-      GameStateMachine.instance.SetState(typeof(GamePlay), false, new object[] { GameStateMachine.instance });
+      SignalData data = new SignalData();
+      data.set("newStateType", GameStates.PlayingState);
+      stateChangeSignal.fire(data);
     }
   }
 
@@ -68,16 +84,22 @@ class UiManager : MonoBehaviour {
   }
 
   void PauseListener() {
-    (GameStateMachine.instance.Current as GamePlay).onPause();
+    SignalData togglePauseData = new SignalData();
+    togglePauseData.set("isPaused", true);
+    TogglePauseSignal.fire(togglePauseData);
   }
 
   void ResumeListener() {
-    (GameStateMachine.instance.Current as GamePlay).onResume();
+    SignalData togglePauseData = new SignalData();
+    togglePauseData.set("isPaused", false);
+    TogglePauseSignal.fire(togglePauseData);
   }
 
   void ExitToMenu() {
     Time.timeScale = 1.0f;
-    GameStateMachine.instance.SetState(typeof(MenuState), false, new object[] { GameStateMachine.instance });
+    SignalData data = new SignalData();
+    data.set("newStateType", GameStates.MenuState);
+    stateChangeSignal.fire(data);
   }
 
   void toggleMusic(Button butt) {
@@ -93,11 +115,15 @@ class UiManager : MonoBehaviour {
   }
 
   void exitHowToMenu() {
-    (GameStateMachine.instance.Current as MenuState).hideHowTo();
+    SignalData screenChangeData = new SignalData();
+    screenChangeData.set("screenName", ScreenManager.Screens.MenuScreen);
+    screenChangeSignal.fire(screenChangeData);
   }
 
   void showHowToMenu() {
-    (GameStateMachine.instance.Current as MenuState).showHowTo();
+    SignalData screenChangeData = new SignalData();
+    screenChangeData.set("screenName", ScreenManager.Screens.HowToScreen);
+    screenChangeSignal.fire(screenChangeData);
   }
 
   void toggleSfx(Button butt) {
